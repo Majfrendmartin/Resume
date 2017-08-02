@@ -1,4 +1,4 @@
-package com.wec.resume.presenter;
+package com.wec.resume.model.usecase;
 /*
  * Avaya Inc. - Proprietary (Restricted)
  * Solely for authorized persons having a need to know
@@ -11,7 +11,11 @@ package com.wec.resume.presenter;
  */
 
 
-import com.wec.resume.view.MainActivityFragmentView;
+import android.support.annotation.NonNull;
 
-public class MainActivityFragmentPresenterImpl extends AbstractPresenter<MainActivityFragmentView> implements MainActivityFragmentPresenter{
+import io.reactivex.Observable;
+
+public interface Usecase<T> {
+    @NonNull
+    Observable<T> execute();
 }

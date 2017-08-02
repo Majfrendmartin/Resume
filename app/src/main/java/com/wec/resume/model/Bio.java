@@ -1,4 +1,4 @@
-package com.wec.resume.presenter;
+package com.wec.resume.model;
 /*
  * Avaya Inc. - Proprietary (Restricted)
  * Solely for authorized persons having a need to know
@@ -10,8 +10,14 @@ package com.wec.resume.presenter;
  * or intended publication of such source code.
  */
 
+import lombok.Data;
+import lombok.experimental.Accessors;
 
-import com.wec.resume.view.MainActivityFragmentView;
-
-public class MainActivityFragmentPresenterImpl extends AbstractPresenter<MainActivityFragmentView> implements MainActivityFragmentPresenter{
+@Data
+@Accessors(chain = true)
+public class Bio {
+    private String name;
+    private String surname;
+    private String avatar;
+    private Social [] socials;
 }

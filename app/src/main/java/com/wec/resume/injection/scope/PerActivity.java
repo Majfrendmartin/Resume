@@ -1,4 +1,4 @@
-package com.wec.resume.presenter;
+package com.wec.resume.injection.scope;
 /*
  * Avaya Inc. - Proprietary (Restricted)
  * Solely for authorized persons having a need to know
@@ -10,8 +10,13 @@ package com.wec.resume.presenter;
  * or intended publication of such source code.
  */
 
+import java.lang.annotation.Retention;
 
-import com.wec.resume.view.MainActivityFragmentView;
+import javax.inject.Scope;
 
-public class MainActivityFragmentPresenterImpl extends AbstractPresenter<MainActivityFragmentView> implements MainActivityFragmentPresenter{
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+@Scope
+@Retention(RUNTIME)
+public @interface PerActivity {
 }
