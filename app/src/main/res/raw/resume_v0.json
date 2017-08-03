@@ -1,0 +1,19 @@
+{
+  "bio": {
+    "name" : "John",
+    "surname" : "Doe",
+    "socials" : [
+      
+        {
+          "type" : "github",
+          "url" : "https://github.com/Majfrendmartin"
+        },
+        {
+          "type" : "linkedin",
+          "url" : "https://linkedin.com/Majfrendmartin"
+        }
+      
+      ],
+    "avatar" : "http://dodskypict.com/D/Deadpool-Logo-Wallpaper-On-Wallpaper-Hd-1-640x480.jpg"
+  }
+}
