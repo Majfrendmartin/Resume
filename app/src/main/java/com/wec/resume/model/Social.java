@@ -11,6 +11,7 @@ import lombok.experimental.Accessors;
 public class Social {
     private Type type;
     private String url;
+
     public enum Type {
         @SerializedName("github")
         GITHUB,

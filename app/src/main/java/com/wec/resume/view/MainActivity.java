@@ -1,6 +1,5 @@
 package com.wec.resume.view;
 
-import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,7 +7,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -22,8 +20,6 @@ import com.wec.resume.injection.module.PresenterModule;
 import com.wec.resume.model.Social;
 import com.wec.resume.presenter.MainActivityPresenter;
 
-import java.util.concurrent.Semaphore;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -33,27 +29,34 @@ import static android.view.View.VISIBLE;
 
 public class MainActivity extends AbstractPresenterActivity<MainActivityPresenter> implements MainActivityView {
 
+    public static final String PROPERTY_NAME_X = "X";
+    public static final String PROPERTY_NAME_ROTATION = "rotation";
     private static final float ROTATED_POSITION = 135f;
     private static final float UNROTATED_POSITION = 0f;
-    private static final int SLIDE_ANIMATION_TIME_MILLIS = 500;
+    private static final int ANIMATION_TIME_MILLIS = 500;
     private static final int BASE_SLIDE_BUTTON_OFFSET = 180;
     private static final int NEXT_BUTTON_OFFSET = 170;
-    private static final int MAX_AVAILABLE = 2;
-    private final Semaphore semaphore = new Semaphore(MAX_AVAILABLE, true);
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
     @BindView(R.id.fab)
     FloatingActionButton fab;
+
     @BindView(R.id.fab_github)
     FloatingActionButton fabGithub;
+
     @BindView(R.id.fab_linkedin)
     FloatingActionButton fabLinkedIn;
+
     @BindView(R.id.fab_container)
     RelativeLayout fabContainer;
+
     @BindView(R.id.iv_splash_screen)
     ImageView ivSplashScreen;
+
     @BindView(R.id.collapse_toolbar)
     CollapsingToolbarLayout collapsingToolbarLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +118,7 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
         final FloatingActionButton button = getButtonByType(type);
         if (button != null) {
             button.setClickable(true);
+            button.setVisibility(VISIBLE);
         }
     }
 
@@ -136,47 +140,30 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
             return;
         }
 
-        int buttonOffset = BASE_SLIDE_BUTTON_OFFSET + (position * NEXT_BUTTON_OFFSET);
+        final int buttonMargin = getResources().getDimensionPixelSize(R.dimen.margin_10);
 
-        // Get negative value to reverse animation.
-        if (shouldShowButton) {
-            buttonOffset *= -1;
-        }
+        final int fabWidth = fab.getWidth();
+        final int buttonWidth = button.getWidth();
+        final float fabX = fab.getX();
+        final float startPosition = fabX + (fabWidth - buttonWidth) / 2;
+        final int itemPosition = position + 1;
 
-        //TODO: get dimensions from layout
-        final ObjectAnimator animator = ObjectAnimator.ofFloat(button, "X", button.getX() + buttonOffset);
-        animator.setDuration((position + 1) * SLIDE_ANIMATION_TIME_MILLIS);
+        final float endXValue = shouldShowButton ?
+                fabX - ((buttonWidth + buttonMargin) * itemPosition) :
+                startPosition;
+
+        final ObjectAnimator animator = ObjectAnimator.ofFloat(button, PROPERTY_NAME_X, button.getX(), endXValue);
+        animator.setDuration(itemPosition * ANIMATION_TIME_MILLIS);
         animator.setInterpolator(new FastOutSlowInInterpolator());
-
-        animator.addListener(new BaseAnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                super.onAnimationStart(animation);
-                fab.setClickable(false);
-                if (shouldShowButton) {
-                    button.setVisibility(VISIBLE);
-                }
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                fab.setClickable(true);
-                if (!shouldShowButton) {
-                    button.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
-
         animator.start();
     }
 
     @Override
     public void setSocialButtonToSelected(boolean socialButtonSelected) {
-        final ObjectAnimator imageViewObjectAnimator = ObjectAnimator.ofFloat(fab, "rotation",
-                socialButtonSelected ? UNROTATED_POSITION : ROTATED_POSITION,
+        final ObjectAnimator imageViewObjectAnimator = ObjectAnimator.ofFloat(fab,
+                PROPERTY_NAME_ROTATION, fab.getRotation(),
                 socialButtonSelected ? ROTATED_POSITION : UNROTATED_POSITION);
-        imageViewObjectAnimator.setDuration(500);
+        imageViewObjectAnimator.setDuration(ANIMATION_TIME_MILLIS);
         imageViewObjectAnimator.start();
     }
 

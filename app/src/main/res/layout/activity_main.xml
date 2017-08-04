@@ -52,26 +52,12 @@
         app:layout_anchorGravity="bottom|right|end"
         tools:visibility="visible">
 
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_github"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/fab"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="24dp"
-            android:clickable="false"
-            android:visibility="invisible"
-            app:fabSize="mini"
-            app:srcCompat="@drawable/ic_github"
-            tools:visibility="visible"/>
-
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_linkedin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/fab"
             android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:layout_marginEnd="24dp"
             android:clickable="false"
             android:visibility="invisible"
@@ -80,7 +66,20 @@
             tools:visibility="visible"/>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@id/fab"
+            android:id="@+id/fab_github"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="24dp"
+            android:clickable="false"
+            android:visibility="invisible"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/ic_github"
+            tools:visibility="visible"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

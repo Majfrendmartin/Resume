@@ -4,6 +4,8 @@ package com.wec.resume.presenter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.wec.resume.view.View;
+
 public interface Presenter<T extends View> {
     T getView();
 
