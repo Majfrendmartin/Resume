@@ -1,6 +1,8 @@
 package com.wec.resume.view;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -26,6 +28,8 @@ import butterknife.OnClick;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.wec.resume.model.Social.Type.GITHUB;
+import static com.wec.resume.model.Social.Type.LINKED_IN;
 
 public class MainActivity extends AbstractPresenterActivity<MainActivityPresenter> implements MainActivityView {
 
@@ -167,6 +171,11 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
         imageViewObjectAnimator.start();
     }
 
+    @Override
+    public void navigateToURL(String url) {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+    }
+
     @OnClick(R.id.fab)
     void fabButtonClicked() {
         presenter.socialsButtonClicked();
@@ -174,12 +183,12 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
 
     @OnClick(R.id.fab_github)
     void githubButtonClicked() {
-        presenter.githubButtonClicked();
+        presenter.onButtonClicked(GITHUB);
     }
 
     @OnClick(R.id.fab_linkedin)
     void linkedInButtonClicked() {
-        presenter.linkedInButtonClicked();
+        presenter.onButtonClicked(LINKED_IN);
     }
 
 }

@@ -22,4 +22,6 @@ public interface MainActivityView extends View {
     void animateButton(Social.Type type, int position, boolean shouldShowButton);
 
     void setSocialButtonToSelected(boolean socialButtonSelected);
+
+    void navigateToURL(String url);
 }
