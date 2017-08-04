@@ -1,7 +1,6 @@
 package com.wec.resume.presenter;
 
 
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 

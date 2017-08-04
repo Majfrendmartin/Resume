@@ -1,7 +1,6 @@
 package com.wec.resume.view;
 
 
-
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,6 +23,7 @@ public abstract class AbstractPresenterActivity<T extends Presenter<? extends Vi
 
     /**
      * Presenter call needs to be done after injection, that's why extra method is required.
+     *
      * @param savedInstanceState
      */
     protected void onCreateAfterInjection(@Nullable final Bundle savedInstanceState) {

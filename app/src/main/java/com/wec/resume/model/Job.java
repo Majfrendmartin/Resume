@@ -1,7 +1,6 @@
 package com.wec.resume.model;
 
 
-
 import java.util.Date;
 
 import lombok.Data;

@@ -1,7 +1,6 @@
 package com.wec.resume.model.usecase;
 
 
-
 import android.support.annotation.NonNull;
 
 import io.reactivex.Observable;

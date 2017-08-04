@@ -1,9 +1,9 @@
 package com.wec.resume.injection.module;
 
 
-
 import com.wec.resume.injection.scope.PerActivity;
 import com.wec.resume.model.usecase.FetchBioUsecase;
+import com.wec.resume.model.usecase.UpdateResumeUsecase;
 import com.wec.resume.presenter.MainActivityFragmentPresenter;
 import com.wec.resume.presenter.MainActivityFragmentPresenterImpl;
 import com.wec.resume.presenter.MainActivityPresenter;
@@ -17,8 +17,9 @@ public class PresenterModule {
 
     @Provides
     @PerActivity
-    public MainActivityPresenter provideMainActivityPresenter(FetchBioUsecase fetchBioUsecase) {
-        return new MainActivityPresenterImpl(fetchBioUsecase);
+    public MainActivityPresenter provideMainActivityPresenter(FetchBioUsecase fetchBioUsecase,
+                                                              UpdateResumeUsecase updateResumeUsecase) {
+        return new MainActivityPresenterImpl(fetchBioUsecase, updateResumeUsecase);
     }
 
     @Provides

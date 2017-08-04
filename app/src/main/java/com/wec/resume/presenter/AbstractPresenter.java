@@ -1,13 +1,12 @@
 package com.wec.resume.presenter;
 
 
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.wec.resume.view.View;
 
-public abstract class AbstractPresenter<T extends View> implements Presenter <T> {
+public abstract class AbstractPresenter<T extends View> implements Presenter<T> {
     private T view;
 
     @Override

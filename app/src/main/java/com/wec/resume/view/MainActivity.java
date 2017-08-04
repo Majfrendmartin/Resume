@@ -12,7 +12,6 @@ import com.wec.resume.presenter.MainActivityPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends AbstractPresenterActivity<MainActivityPresenter> implements MainActivityView {
 
@@ -47,5 +46,20 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
     @Override
     public void setAvatar(String avatar) {
         Toast.makeText(this, avatar, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showCouldNoteLoadDataErrorMessage() {
+        Toast.makeText(this, "Could not load data", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void hideSplashScreen() {
+        Toast.makeText(this, "hideSplashScreen", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showSplashScreen() {
+
     }
 }

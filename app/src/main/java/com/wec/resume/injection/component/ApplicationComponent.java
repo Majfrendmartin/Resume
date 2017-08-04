@@ -14,5 +14,6 @@ import dagger.Component;
 @Component(modules = {ApplicationModule.class, NetworkModule.class})
 public interface ApplicationComponent {
     Repository repository();
+
     SharedPreferences preferences();
 }

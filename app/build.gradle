@@ -28,6 +28,7 @@ ext {
     butterknifeVersion = '8.7.0'
     daggerVersion = '2.11'
     supportVersion = '25.3.1'
+    retrofitVersion = '2.3.0'
 }
 
 dependencies {
@@ -51,8 +52,11 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'io.reactivex.rxjava2:rxjava:2.1.0'
 
+    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+
     compile 'com.github.bumptech.glide:glide:3.8.0'
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.google.code.gson:gson:2.8.1'
 
     provided "org.projectlombok:lombok:1.16.18"

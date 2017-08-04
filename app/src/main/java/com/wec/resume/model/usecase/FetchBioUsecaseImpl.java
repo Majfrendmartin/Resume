@@ -1,8 +1,6 @@
 package com.wec.resume.model.usecase;
 
 
-
-
 import android.support.annotation.NonNull;
 
 import com.wec.resume.model.Bio;

@@ -1,7 +1,6 @@
 package com.wec.resume.model.repository;
 
 
-
 import com.wec.resume.model.Bio;
 import com.wec.resume.model.Resume;
 
