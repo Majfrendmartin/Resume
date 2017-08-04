@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 
 import com.wec.resume.model.Bio;
 import com.wec.resume.model.Social;
+import com.wec.resume.model.Social.Type;
 import com.wec.resume.model.usecase.FetchBioUsecase;
 import com.wec.resume.model.usecase.UpdateResumeUsecase;
 import com.wec.resume.view.MainActivityView;
@@ -111,13 +112,17 @@ public class MainActivityPresenterImpl extends AbstractPresenter<MainActivityVie
     }
 
     @Override
-    public void githubButtonClicked() {
-
-    }
-
-    @Override
-    public void linkedInButtonClicked() {
-
+    public void onButtonClicked(Type type) {
+        if (!isViewBounded()) {
+            return;
+        }
+        final Social[] socials = bio.getSocials();
+        for (final Social social : socials) {
+            if (social.getType() == type) {
+                getView().navigateToURL(social.getUrl());
+                return;
+            }
+        }
     }
 
     public void setBio(Bio bio) {
