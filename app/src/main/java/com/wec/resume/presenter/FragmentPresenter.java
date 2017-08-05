@@ -12,4 +12,6 @@ public interface FragmentPresenter<T extends View> extends Presenter<T> {
     void onViewCreated(Bundle savedInstanceState);
 
     void onCreateView(Bundle savedInstanceState);
+
+    void onDestroyView();
 }

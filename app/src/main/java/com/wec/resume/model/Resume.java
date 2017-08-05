@@ -9,4 +9,7 @@ import lombok.experimental.Accessors;
 public class Resume {
     private Bio bio;
     private int version;
+    private EducationItem education;
+    private JobsItem jobs;
+    private SkillsItem skills;
 }

@@ -1,20 +1,30 @@
 {
-  "version" : "0",
+  "version": "0",
   "bio": {
-    "name" : "John",
-    "surname" : "Doe",
-    "socials" : [
-      
-        {
-          "type" : "github",
-          "url" : "https://github.com/Majfrendmartin"
-        },
-        {
-          "type" : "linkedin",
-          "url" : "https://www.linkedin.com/in/pawe%C5%82-raciborski-a0a19a46/"
-        }
-      
-      ],
-    "avatar" : "http://dodskypict.com/D/Deadpool-Logo-Wallpaper-On-Wallpaper-Hd-1-640x480.jpg"
+    "name": "John",
+    "surname": "Doe",
+    "avatar": "http://dodskypict.com/D/Deadpool-Logo-Wallpaper-On-Wallpaper-Hd-1-640x480.jpg",
+    "socials": [
+      {
+        "type": "github",
+        "url": "https://github.com/Majfrendmartin"
+      },
+      {
+        "type": "linkedin",
+        "url": "https://www.linkedin.com/in/pawe%C5%82-raciborski-a0a19a46/"
+      }
+    ]
+  },
+  "education": {
+    "title": "Education",
+    "cover": "http://www.123mobilewallpapers.com/wp-content/uploads/2014/07/danbo_in_forest.jpg"
+  },
+  "jobs": {
+    "title": "Work Experience",
+    "cover": "http://tremendouswallpapers.com/wp-content/uploads/2015/07/Fresh-atmosphere-computers-desktop-wallpaper-640x480.jpg"
+  },
+  "skills": {
+    "title": "Skills",
+    "cover": "http://wfiles.brothersoft.com/e6/android_189017-640x480.jpg"
   }
 }

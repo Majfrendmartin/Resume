@@ -7,13 +7,23 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.wec.resume.R;
+import com.wec.resume.model.BaseResumeItem;
 import com.wec.resume.model.Bio;
+import com.wec.resume.model.EducationItem;
+import com.wec.resume.model.JobsItem;
 import com.wec.resume.model.Resume;
+import com.wec.resume.model.SkillsItem;
+import com.wec.resume.model.event.ResumeUpdatedEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -33,13 +43,15 @@ public class RepositoryImpl implements Repository {
     private final SharedPreferences preferences;
     private final Context context;
     private final Api api;
+    private final EventBus eventBus;
     private Resume currentResume;
     private Disposable loadUpdateSubscription;
 
-    public RepositoryImpl(Context context, SharedPreferences preferences, Retrofit retrofit) {
+    public RepositoryImpl(Context context, SharedPreferences preferences, Retrofit retrofit, EventBus eventBus) {
         this.context = context;
         this.preferences = preferences;
         this.api = retrofit.create(Api.class);
+        this.eventBus = eventBus;
     }
 
     @Override
@@ -55,7 +67,6 @@ public class RepositoryImpl implements Repository {
 
     private Observable<Resume> getResourcesResume() {
         return Observable.create(emitter -> {
-
             String resumeString = getStoredResumeString();
             // Get resume from resources ONLY if there is nothing left.
             if (isEmpty(resumeString)) {
@@ -138,6 +149,37 @@ public class RepositoryImpl implements Repository {
         return publishResult;
     }
 
+    @Override
+    public Observable<Collection<BaseResumeItem>> getSections() {
+        return Observable.create(emitter -> {
+            if (currentResume == null) {
+                emitter.onError(new NullPointerException("No resume data available"));
+                emitter.onComplete();
+                return;
+            }
+
+            final List<BaseResumeItem> items = new ArrayList<>(3);
+
+            final EducationItem education = currentResume.getEducation();
+            if (education != null) {
+                items.add(education);
+            }
+
+            final JobsItem jobs = currentResume.getJobs();
+            if (jobs != null) {
+                items.add(jobs);
+            }
+
+            final SkillsItem skillsItem = currentResume.getSkills();
+            if (skillsItem != null) {
+                items.add(skillsItem);
+            }
+
+            emitter.onNext(items);
+            emitter.onComplete();
+        });
+    }
+
     private void handleUpdateResumeResult(PublishSubject<Resume> publishResult, Resume resume) {
         if (resume == null || resume.getVersion() == VERSION_INVALID) {
             publishResult.onError(new IOException("Could not load data"));
@@ -150,6 +192,9 @@ public class RepositoryImpl implements Repository {
             edit.putString(STORED_RESUME, new Gson().toJson(resume));
             edit.apply();
         }
+
+        eventBus.postSticky(new ResumeUpdatedEvent());
+
         publishResult.onNext(resume);
         publishResult.onComplete();
     }

@@ -77,4 +77,11 @@ public class AbstractFragmentPresenter<T extends View> implements FragmentPresen
     public void onCreateView(Bundle savedInstanceState) {
 
     }
+
+    @Override
+    public void onDestroyView() {
+
+    }
+
+
 }

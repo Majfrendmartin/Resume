@@ -8,6 +8,8 @@ import com.wec.resume.injection.scope.PerApplication;
 import com.wec.resume.model.repository.Repository;
 import com.wec.resume.model.repository.RepositoryImpl;
 
+import org.greenrobot.eventbus.EventBus;
+
 import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
@@ -22,8 +24,8 @@ public class NetworkModule {
     @Provides
     @PerApplication
     Repository provideRepository(Application application, SharedPreferences preferences,
-                                 Retrofit retrofit) {
-        return new RepositoryImpl(application, preferences, retrofit);
+                                 Retrofit retrofit, EventBus eventBus) {
+        return new RepositoryImpl(application, preferences, retrofit, eventBus);
     }
 
     @Provides

@@ -10,9 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.wec.resume.R;
 import com.wec.resume.injection.component.DaggerMainActivityComponent;
 import com.wec.resume.injection.module.PresenterModule;
+import com.wec.resume.model.BaseResumeItem;
 import com.wec.resume.presenter.MainActivityFragmentPresenter;
 
 import java.util.Collection;
@@ -74,8 +77,8 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
     }
 
     @Override
-    public void showList(List<String> strings) {
-        sectionsAdapter.updateItems(strings);
+    public void showList(Collection<BaseResumeItem> sections) {
+        sectionsAdapter.updateItems(sections);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -90,13 +93,20 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
             super(view);
             ButterKnife.bind(this, view);
         }
+
+        public void setupImage(String url) {
+            Glide.with(getContext())
+                    .load(url)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(ivItemImage);
+        }
     }
 
     private class SectionsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-        private final List<String> items = new CopyOnWriteArrayList<>();
+        private final List<BaseResumeItem> items = new CopyOnWriteArrayList<>();
 
-        public void updateItems(Collection<String> items) {
+        public void updateItems(Collection<BaseResumeItem> items) {
             this.items.clear();
             this.items.addAll(items);
             notifyDataSetChanged();
@@ -111,7 +121,9 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.tvTitle.setText(items.get(position));
+            final BaseResumeItem resumeItem = items.get(position);
+            holder.tvTitle.setText(resumeItem.getTitle());
+            holder.setupImage(resumeItem.getCover());
         }
 
         @Override

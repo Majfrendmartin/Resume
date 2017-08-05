@@ -43,10 +43,15 @@ public class MainActivityPresenterImpl extends AbstractPresenter<MainActivityVie
         updateResume();
     }
 
+    @Override
+    public void onDestroy() {
+        cleanUpFetchBioDisposable();
+        cleanUpUpdateResumeDisposable();
+        super.onDestroy();
+    }
+
     private void updateResume() {
-        if (updateResumeDisposable != null && !updateResumeDisposable.isDisposed()) {
-            updateResumeDisposable.dispose();
-        }
+        cleanUpUpdateResumeDisposable();
 
         updateResumeDisposable = updateResumeUsecase
                 .execute()
@@ -64,10 +69,14 @@ public class MainActivityPresenterImpl extends AbstractPresenter<MainActivityVie
                 });
     }
 
-    private void handleFetchBio() {
-        if (fetchBioDisposable != null && !fetchBioDisposable.isDisposed()) {
-            fetchBioDisposable.dispose();
+    private void cleanUpUpdateResumeDisposable() {
+        if (updateResumeDisposable != null && !updateResumeDisposable.isDisposed()) {
+            updateResumeDisposable.dispose();
         }
+    }
+
+    private void handleFetchBio() {
+        cleanUpFetchBioDisposable();
 
         fetchBioDisposable = fetchBioUsecase.execute()
                 .subscribeOn(Schedulers.io())
@@ -93,6 +102,12 @@ public class MainActivityPresenterImpl extends AbstractPresenter<MainActivityVie
                         }
                     }
                 });
+    }
+
+    private void cleanUpFetchBioDisposable() {
+        if (fetchBioDisposable != null && !fetchBioDisposable.isDisposed()) {
+            fetchBioDisposable.dispose();
+        }
     }
 
     @Override

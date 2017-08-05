@@ -8,6 +8,8 @@ import com.wec.resume.injection.module.NetworkModule;
 import com.wec.resume.injection.scope.PerApplication;
 import com.wec.resume.model.repository.Repository;
 
+import org.greenrobot.eventbus.EventBus;
+
 import dagger.Component;
 
 @PerApplication
@@ -16,4 +18,6 @@ public interface ApplicationComponent {
     Repository repository();
 
     SharedPreferences preferences();
+
+    EventBus eventBus();
 }

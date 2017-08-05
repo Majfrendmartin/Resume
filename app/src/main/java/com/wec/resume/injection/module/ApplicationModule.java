@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import com.wec.resume.ResumeApplication;
 import com.wec.resume.injection.scope.PerApplication;
 
+import org.greenrobot.eventbus.EventBus;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -37,6 +39,12 @@ public class ApplicationModule {
     @PerApplication
     public SharedPreferences provideSharedPreferences(Application application) {
         return application.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+    }
+
+    @Provides
+    @PerApplication
+    public EventBus provideEventBus() {
+        return EventBus.getDefault();
     }
 
 
