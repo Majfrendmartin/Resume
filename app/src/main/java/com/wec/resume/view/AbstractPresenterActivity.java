@@ -16,11 +16,6 @@ public abstract class AbstractPresenterActivity<T extends Presenter<? extends Vi
     @Inject
     T presenter;
 
-    @Override
-    protected void onCreate(@Nullable final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     /**
      * Presenter call needs to be done after injection, that's why extra method is required.
      *

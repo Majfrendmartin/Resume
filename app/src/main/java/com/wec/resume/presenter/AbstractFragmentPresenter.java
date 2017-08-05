@@ -1,12 +1,16 @@
 package com.wec.resume.presenter;
 
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.wec.resume.view.View;
 
-public abstract class AbstractPresenter<T extends View> implements Presenter<T> {
+/**
+ * Created by Majfrendmartin on 2017-08-05.
+ */
+
+public class AbstractFragmentPresenter<T extends View> implements FragmentPresenter<T> {
+
     private T view;
 
     @Override
@@ -20,7 +24,7 @@ public abstract class AbstractPresenter<T extends View> implements Presenter<T> 
     }
 
     @Override
-    public void bindView(final T view) {
+    public void bindView(T view) {
         this.view = view;
     }
 
@@ -30,7 +34,12 @@ public abstract class AbstractPresenter<T extends View> implements Presenter<T> 
     }
 
     @Override
-    public void onCreate(@Nullable final Bundle bundle) {
+    public void onCreate(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onDestroy() {
 
     }
 
@@ -55,12 +64,17 @@ public abstract class AbstractPresenter<T extends View> implements Presenter<T> 
     }
 
     @Override
-    public void onSaveInstanceState(final Bundle bundle) {
+    public void onSaveInstanceState(Bundle bundle) {
 
     }
 
     @Override
-    public void onDestroy() {
+    public void onViewCreated(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void onCreateView(Bundle savedInstanceState) {
 
     }
 }
