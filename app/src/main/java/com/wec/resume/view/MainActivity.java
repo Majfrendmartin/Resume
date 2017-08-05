@@ -9,7 +9,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.Toolbar;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -33,13 +32,12 @@ import static com.wec.resume.model.Social.Type.LINKED_IN;
 
 public class MainActivity extends AbstractPresenterActivity<MainActivityPresenter> implements MainActivityView {
 
-    public static final String PROPERTY_NAME_X = "X";
-    public static final String PROPERTY_NAME_ROTATION = "rotation";
-    private static final float ROTATED_POSITION = 135f;
-    private static final float UNROTATED_POSITION = 0f;
+    private static final String PROPERTY_NAME_X = "X";
+    private static final String PROPERTY_NAME_ROTATION = "rotation";
+    private static final float SELECTED_ROTATION_VALUE = 135f;
+    private static final float DEFAULT_ROTATION_VALUE = 0f;
     private static final int ANIMATION_TIME_MILLIS = 500;
-    private static final int BASE_SLIDE_BUTTON_OFFSET = 180;
-    private static final int NEXT_BUTTON_OFFSET = 170;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -61,7 +59,6 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
     @BindView(R.id.collapse_toolbar)
     CollapsingToolbarLayout collapsingToolbarLayout;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,10 +74,6 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
 
         presenter.bindView(this);
         onCreateAfterInjection(savedInstanceState);
-
-        getWindow().setFlags(
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
     }
 
     @Override
@@ -166,7 +159,7 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
     public void setSocialButtonToSelected(boolean socialButtonSelected) {
         final ObjectAnimator imageViewObjectAnimator = ObjectAnimator.ofFloat(fab,
                 PROPERTY_NAME_ROTATION, fab.getRotation(),
-                socialButtonSelected ? ROTATED_POSITION : UNROTATED_POSITION);
+                socialButtonSelected ? SELECTED_ROTATION_VALUE : DEFAULT_ROTATION_VALUE);
         imageViewObjectAnimator.setDuration(ANIMATION_TIME_MILLIS);
         imageViewObjectAnimator.start();
     }
