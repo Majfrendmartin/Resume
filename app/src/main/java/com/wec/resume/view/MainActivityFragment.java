@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wec.resume.R;
@@ -79,8 +80,11 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(android.R.id.text1)
-        TextView itemTitle;
+        @BindView(R.id.tv_title)
+        TextView tvTitle;
+
+        @BindView(R.id.iv_item_image)
+        ImageView ivItemImage;
 
         public ViewHolder(View view) {
             super(view);
@@ -101,13 +105,13 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             final View view = LayoutInflater.from(parent.getContext())
-                    .inflate(android.R.layout.simple_list_item_1, parent, false);
+                    .inflate(R.layout.section_item, parent, false);
             return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.itemTitle.setText(items.get(position));
+            holder.tvTitle.setText(items.get(position));
         }
 
         @Override
