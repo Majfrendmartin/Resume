@@ -3,15 +3,16 @@ package com.wec.resume.model.repository;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.wec.resume.R;
-import com.wec.resume.model.BaseResumeItem;
 import com.wec.resume.model.Bio;
 import com.wec.resume.model.EducationItem;
 import com.wec.resume.model.JobsItem;
 import com.wec.resume.model.Resume;
+import com.wec.resume.model.Section;
 import com.wec.resume.model.SkillsItem;
 import com.wec.resume.model.event.ResumeUpdatedEvent;
 
@@ -27,7 +28,6 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
@@ -153,7 +153,7 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
-    public Observable<Collection<BaseResumeItem>> getSections() {
+    public Observable<Collection<Section>> getSections() {
         return Observable.create(emitter -> {
             if (currentResume == null) {
                 emitter.onError(new NullPointerException("No resume data available"));
@@ -161,24 +161,60 @@ public class RepositoryImpl implements Repository {
                 return;
             }
 
-            final List<BaseResumeItem> items = new ArrayList<>(3);
-
-            final EducationItem education = currentResume.getEducation();
-            if (education != null) {
-                items.add(education);
-            }
-
-            final JobsItem jobs = currentResume.getJobs();
-            if (jobs != null) {
-                items.add(jobs);
-            }
-
-            final SkillsItem skillsItem = currentResume.getSkills();
-            if (skillsItem != null) {
-                items.add(skillsItem);
-            }
+            final List<Section> items = getSectionsList();
 
             emitter.onNext(items);
+            emitter.onComplete();
+        });
+    }
+
+    @NonNull
+    private List<Section> getSectionsList() {
+        final List<Section> items = new ArrayList<>(3);
+
+        final EducationItem education = currentResume.getEducation();
+        if (education != null) {
+            items.add(education);
+        }
+
+        final JobsItem jobs = currentResume.getJobs();
+        if (jobs != null) {
+            items.add(jobs);
+        }
+
+        final SkillsItem skillsItem = currentResume.getSkills();
+        if (skillsItem != null) {
+            items.add(skillsItem);
+        }
+        return items;
+    }
+
+    @Override
+    public Observable<Section> getSectionByType(@android.support.annotation.NonNull Section.SectionType sectionType) {
+        return Observable.create(emitter -> {
+            if (currentResume == null) {
+                emitter.onError(new NullPointerException("No resume data available"));
+                emitter.onComplete();
+                return;
+            }
+
+            Section selectedSection;
+
+            switch (sectionType) {
+                case EDUCATION:
+                    selectedSection = currentResume.getEducation();
+                    break;
+                case JOBS:
+                    selectedSection = currentResume.getJobs();
+                    break;
+                case SKILLS:
+                    selectedSection = currentResume.getSkills();
+                    break;
+                default:
+                    selectedSection = null;
+            }
+
+            emitter.onNext(selectedSection);
             emitter.onComplete();
         });
     }

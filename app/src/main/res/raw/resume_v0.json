@@ -67,15 +67,15 @@
     "cover": "http://wfiles.brothersoft.com/e6/android_189017-640x480.jpg",
     "items": [
       {
-        "description" : "Android",
+        "description": "Android",
         "level": 5
       },
       {
-        "description" : "iOS",
+        "description": "iOS",
         "level": 3
       },
       {
-        "description" : "CLOUD"
+        "description": "CLOUD"
       }
     ]
   }

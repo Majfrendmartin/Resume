@@ -2,7 +2,7 @@ package com.wec.resume.model.usecase;
 
 import android.support.annotation.NonNull;
 
-import com.wec.resume.model.BaseResumeItem;
+import com.wec.resume.model.Section;
 import com.wec.resume.model.repository.Repository;
 
 import java.util.Collection;
@@ -23,7 +23,7 @@ public class FetchSectionsUsecaseImpl implements FetchSectionsUsecase {
 
     @NonNull
     @Override
-    public Observable<Collection<BaseResumeItem>> execute() {
+    public Observable<Collection<Section>> execute() {
         return repository.getSections();
     }
 }

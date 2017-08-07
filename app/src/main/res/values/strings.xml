@@ -2,4 +2,5 @@
     <string name="app_name">Resume</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_details">DetailsActivity</string>
+    <string name="transition_cover">section_cover_transition</string>
 </resources>

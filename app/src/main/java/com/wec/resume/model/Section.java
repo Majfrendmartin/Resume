@@ -11,9 +11,9 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public abstract class BaseResumeItem<T> {
+public abstract class Section<T> {
 
-    public enum ResumeItemType {
+    public enum SectionType {
         EDUCATION, JOBS, SKILLS
     }
 
@@ -21,5 +21,5 @@ public abstract class BaseResumeItem<T> {
     private String cover;
     private List<T> items;
 
-    public abstract ResumeItemType getType();
+    public abstract SectionType getType();
 }

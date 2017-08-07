@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,9 +19,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.wec.resume.R;
-import com.wec.resume.injection.component.DaggerMainActivityComponent;
+import com.wec.resume.injection.component.DaggerActivityComponent;
 import com.wec.resume.injection.module.PresenterModule;
-import com.wec.resume.model.BaseResumeItem;
+import com.wec.resume.model.Section;
+import com.wec.resume.model.Section.SectionType;
 import com.wec.resume.presenter.MainActivityFragmentPresenter;
 
 import java.util.Collection;
@@ -63,17 +67,14 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
         sectionsAdapter = new SectionsAdapter();
         rvSections.setAdapter(sectionsAdapter);
         sectionsAdapter.getClickedItem()
-                .map(BaseResumeItem::getType)
-                .subscribe(type -> {
-                    presenter.onSectionClicked(type);
-                });
+                .subscribe(pair -> presenter.onSectionClicked(pair.first, pair.second));
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DaggerMainActivityComponent.builder()
+        DaggerActivityComponent.builder()
                 .applicationComponent(getApplicationComponent())
                 .presenterModule(new PresenterModule())
                 .build()
@@ -89,15 +90,25 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
     }
 
     @Override
-    public void showList(@NonNull Collection<BaseResumeItem> sections) {
+    public void showList(@NonNull Collection<Section> sections) {
         sectionsAdapter.updateItems(sections);
     }
 
     @Override
-    public void navigateToDetails(@NonNull BaseResumeItem.ResumeItemType type) {
-        final Intent intent = new Intent(getContext(), DetailsActivity.class);
+    public void navigateToDetails(@NonNull SectionType type, int position) {
+        final ViewHolder viewHolder = (ViewHolder) rvSections.findViewHolderForAdapterPosition(position);
+        if (viewHolder == null) {
+            return;
+        }
+
+        final ActivityOptionsCompat activityOptionsCompat =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
+                        viewHolder.ivItemImage, getString(R.string.transition_cover));
+
+        final Intent intent = new Intent(getActivity(), DetailsActivity.class);
         intent.putExtra(KEY_EXTRA_SELECTED_TYPE, type);
-        startActivity(intent);
+
+        ActivityCompat.startActivity(getActivity(), intent, activityOptionsCompat.toBundle());
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -117,7 +128,7 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
         }
 
         void setupImage(String url) {
-            Glide.with(getContext())
+            Glide.with(getActivity())
                     .load(url)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(ivItemImage);
@@ -126,17 +137,17 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
 
     private class SectionsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-        private PublishSubject<BaseResumeItem> onClickSubject = PublishSubject.create();
+        private PublishSubject<Pair<SectionType, Integer>> onClickSubject = PublishSubject.create();
 
-        private final List<BaseResumeItem> items = new CopyOnWriteArrayList<>();
+        private final List<Section> items = new CopyOnWriteArrayList<>();
 
-        void updateItems(Collection<BaseResumeItem> items) {
+        void updateItems(Collection<Section> items) {
             this.items.clear();
             this.items.addAll(items);
             notifyDataSetChanged();
         }
 
-        Observable<BaseResumeItem> getClickedItem() {
+        Observable<Pair<SectionType, Integer>> getClickedItem() {
             return onClickSubject;
         }
 
@@ -148,13 +159,12 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            final BaseResumeItem resumeItem = items.get(position);
+        public void onBindViewHolder(ViewHolder holder, final int position) {
+            final Section resumeItem = items.get(position);
             holder.tvTitle.setText(resumeItem.getTitle());
             holder.setupImage(resumeItem.getCover());
-            holder.cvContent.setOnClickListener(v -> {
-                onClickSubject.onNext(resumeItem);
-            });
+            holder.cvContent.setOnClickListener(
+                    v -> onClickSubject.onNext(Pair.create(resumeItem.getType(), position)));
         }
 
         @Override

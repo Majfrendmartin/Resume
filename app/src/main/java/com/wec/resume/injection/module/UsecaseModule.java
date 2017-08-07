@@ -5,6 +5,8 @@ import com.wec.resume.injection.scope.PerActivity;
 import com.wec.resume.model.repository.Repository;
 import com.wec.resume.model.usecase.FetchBioUsecase;
 import com.wec.resume.model.usecase.FetchBioUsecaseImpl;
+import com.wec.resume.model.usecase.FetchSectionByTypeUsecase;
+import com.wec.resume.model.usecase.FetchSectionByTypeUsecaseImpl;
 import com.wec.resume.model.usecase.FetchSectionsUsecase;
 import com.wec.resume.model.usecase.FetchSectionsUsecaseImpl;
 import com.wec.resume.model.usecase.UpdateResumeUsecase;
@@ -32,5 +34,11 @@ public class UsecaseModule {
     @PerActivity
     FetchSectionsUsecase provideFetchSectionsUsecase(Repository repository) {
         return new FetchSectionsUsecaseImpl(repository);
+    }
+
+    @Provides
+    @PerActivity
+    FetchSectionByTypeUsecase provideFetchSectionByType(Repository repository) {
+        return new FetchSectionByTypeUsecaseImpl(repository);
     }
 }

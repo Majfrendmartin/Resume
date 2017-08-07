@@ -1,6 +1,6 @@
 package com.wec.resume.model.usecase;
 
-import com.wec.resume.model.BaseResumeItem;
+import com.wec.resume.model.Section;
 
 import java.util.Collection;
 
@@ -8,5 +8,5 @@ import java.util.Collection;
  * Created by Majfrendmartin on 2017-08-05.
  */
 
-public interface FetchSectionsUsecase extends Usecase<Collection<BaseResumeItem>> {
+public interface FetchSectionsUsecase extends Usecase<Collection<Section>> {
 }

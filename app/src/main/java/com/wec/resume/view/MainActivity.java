@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.wec.resume.R;
-import com.wec.resume.injection.component.DaggerMainActivityComponent;
+import com.wec.resume.injection.component.DaggerActivityComponent;
 import com.wec.resume.injection.module.PresenterModule;
 import com.wec.resume.model.Social;
 import com.wec.resume.presenter.MainActivityPresenter;
@@ -56,6 +56,9 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
     @BindView(R.id.iv_splash_screen)
     ImageView ivSplashScreen;
 
+    @BindView(R.id.iv_toolbar_parallax_background)
+    ImageView ivToolbarParallaxBackground;
+
     @BindView(R.id.collapse_toolbar)
     CollapsingToolbarLayout collapsingToolbarLayout;
 
@@ -66,7 +69,7 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        DaggerMainActivityComponent.builder()
+        DaggerActivityComponent.builder()
                 .applicationComponent(getApplicationComponent())
                 .presenterModule(new PresenterModule())
                 .build()
@@ -83,10 +86,10 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
 
     @Override
     public void setAvatar(String avatar) {
-        Glide.with(MainActivity.this)
+        Glide.with(this)
                 .load(avatar)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into((ImageView) findViewById(R.id.iv_toolbar_parallax_background));
+                .into(ivToolbarParallaxBackground);
     }
 
     @Override

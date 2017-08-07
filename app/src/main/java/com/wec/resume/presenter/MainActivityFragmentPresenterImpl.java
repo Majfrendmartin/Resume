@@ -4,8 +4,7 @@ package com.wec.resume.presenter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
-import com.wec.resume.model.BaseResumeItem;
-import com.wec.resume.model.BaseResumeItem.ResumeItemType;
+import com.wec.resume.model.Section.SectionType;
 import com.wec.resume.model.event.ResumeUpdatedEvent;
 import com.wec.resume.model.usecase.FetchSectionsUsecase;
 import com.wec.resume.view.MainActivityFragmentView;
@@ -69,9 +68,9 @@ public class MainActivityFragmentPresenterImpl extends AbstractFragmentPresenter
     }
 
     @Override
-    public void onSectionClicked(@NonNull ResumeItemType baseResumeItem) {
+    public void onSectionClicked(@NonNull SectionType baseResumeItem, int position) {
         if(isViewBounded()) {
-            getView().navigateToDetails(baseResumeItem);
+            getView().navigateToDetails(baseResumeItem, position);
         }
     }
 }

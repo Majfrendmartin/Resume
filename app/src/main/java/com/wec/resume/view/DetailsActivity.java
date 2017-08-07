@@ -1,39 +1,78 @@
 package com.wec.resume.view;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.wec.resume.R;
-import com.wec.resume.model.BaseResumeItem;
+import com.wec.resume.injection.component.DaggerActivityComponent;
+import com.wec.resume.injection.module.PresenterModule;
+import com.wec.resume.model.Section.SectionType;
+import com.wec.resume.presenter.DetailsActivityPresenter;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import static com.wec.resume.view.MainActivityFragment.KEY_EXTRA_SELECTED_TYPE;
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends AbstractPresenterActivity<DetailsActivityPresenter> implements DetailsActivityView {
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.iv_toolbar_parallax_background)
+    ImageView ivToolbarParallaxBackground;
+
+    @BindView(R.id.collapse_toolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        supportPostponeEnterTransition();
+        ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final Intent intent = getIntent();
-        final BaseResumeItem.ResumeItemType resumeItemType = (BaseResumeItem.ResumeItemType) intent.getSerializableExtra(KEY_EXTRA_SELECTED_TYPE);
+        DaggerActivityComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .presenterModule(new PresenterModule())
+                .build()
+                .inject(this);
 
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        presenter.bindView(this);
+        presenter.setSectionType(
+                (SectionType) getIntent().getSerializableExtra(KEY_EXTRA_SELECTED_TYPE));
+        onCreateAfterInjection(savedInstanceState);
     }
 
+    @Override
+    public void showSectionDetails(String title, String cover) {
+        collapsingToolbarLayout.setTitle(title);
+        Glide.with(getApplicationContext())
+                .load(cover)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        supportStartPostponedEnterTransition();
+                        return false;
+                    }
+                })
+                .into(ivToolbarParallaxBackground);
+    }
 }

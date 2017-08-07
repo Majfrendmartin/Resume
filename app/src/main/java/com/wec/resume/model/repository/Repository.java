@@ -1,7 +1,9 @@
 package com.wec.resume.model.repository;
 
 
-import com.wec.resume.model.BaseResumeItem;
+import android.support.annotation.NonNull;
+
+import com.wec.resume.model.Section;
 import com.wec.resume.model.Bio;
 import com.wec.resume.model.Resume;
 
@@ -15,5 +17,9 @@ public interface Repository {
 
     Observable<Resume> loadUpdatedResume();
 
-    Observable<Collection<BaseResumeItem>> getSections();
+    Observable<Collection<Section>> getSections();
+
+    Observable<Section> getSectionByType(@NonNull Section.SectionType sectionType);
+
+
 }
