@@ -18,19 +18,19 @@ public class UsecaseModule {
 
     @Provides
     @PerActivity
-    public FetchBioUsecase provideUpdateItemQuantityUsecase(Repository repository) {
+    FetchBioUsecase provideUpdateItemQuantityUsecase(Repository repository) {
         return new FetchBioUsecaseImpl(repository);
     }
 
     @Provides
     @PerActivity
-    public UpdateResumeUsecase provideUpdateResumeUsecase(Repository repository) {
+    UpdateResumeUsecase provideUpdateResumeUsecase(Repository repository) {
         return new UpdateResumeUsecaseImpl(repository);
     }
 
     @Provides
     @PerActivity
-    public FetchSectionsUsecase provideFetchSectionsUsecase(Repository repository) {
+    FetchSectionsUsecase provideFetchSectionsUsecase(Repository repository) {
         return new FetchSectionsUsecaseImpl(repository);
     }
 }

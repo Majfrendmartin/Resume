@@ -20,14 +20,14 @@ public class PresenterModule {
 
     @Provides
     @PerActivity
-    public MainActivityPresenter provideMainActivityPresenter(FetchBioUsecase fetchBioUsecase,
+    MainActivityPresenter provideMainActivityPresenter(FetchBioUsecase fetchBioUsecase,
                                                               UpdateResumeUsecase updateResumeUsecase) {
         return new MainActivityPresenterImpl(fetchBioUsecase, updateResumeUsecase);
     }
 
     @Provides
     @PerActivity
-    public MainActivityFragmentPresenter provideMainActivityFragmentPresenter(
+    MainActivityFragmentPresenter provideMainActivityFragmentPresenter(
             FetchSectionsUsecase fetchSectionsUsecase, EventBus eventBus) {
         return new MainActivityFragmentPresenterImpl(fetchSectionsUsecase, eventBus);
     }

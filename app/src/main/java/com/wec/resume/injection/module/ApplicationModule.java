@@ -18,7 +18,7 @@ import dagger.Provides;
 @Module
 public class ApplicationModule {
 
-    public static final String SHARED_PREFERENCES = "SHARED_PREFERENCES";
+    private static final String SHARED_PREFERENCES = "SHARED_PREFERENCES";
     private final ResumeApplication application;
 
     public ApplicationModule(ResumeApplication application) {
@@ -27,31 +27,31 @@ public class ApplicationModule {
 
     @Provides
     @PerApplication
-    public Application provideApplication() {
+    Application provideApplication() {
         return application;
     }
 
     @Provides
     @PerApplication
-    public ResumeApplication provideResumeApplication() {
+    ResumeApplication provideResumeApplication() {
         return application;
     }
 
     @Provides
     @PerApplication
-    public SharedPreferences provideSharedPreferences(Application application) {
+    SharedPreferences provideSharedPreferences(Application application) {
         return application.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
     }
 
     @Provides
     @PerApplication
-    public EventBus provideEventBus() {
+    EventBus provideEventBus() {
         return EventBus.getDefault();
     }
 
     @Provides
     @PerApplication
-    public Gson provideGson() {
+    Gson provideGson() {
         return new GsonBuilder()
                 .setDateFormat("dd-MM-yyyy")
                 .create();
