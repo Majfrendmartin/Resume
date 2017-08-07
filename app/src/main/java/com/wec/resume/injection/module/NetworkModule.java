@@ -4,6 +4,7 @@ package com.wec.resume.injection.module;
 import android.app.Application;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
 import com.wec.resume.injection.scope.PerApplication;
 import com.wec.resume.model.repository.Repository;
 import com.wec.resume.model.repository.RepositoryImpl;
@@ -24,8 +25,8 @@ public class NetworkModule {
     @Provides
     @PerApplication
     Repository provideRepository(Application application, SharedPreferences preferences,
-                                 Retrofit retrofit, EventBus eventBus) {
-        return new RepositoryImpl(application, preferences, retrofit, eventBus);
+                                 Retrofit retrofit, EventBus eventBus, Gson gson) {
+        return new RepositoryImpl(application, preferences, retrofit, eventBus, gson);
     }
 
     @Provides

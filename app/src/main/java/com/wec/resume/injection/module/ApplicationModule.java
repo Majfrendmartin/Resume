@@ -5,6 +5,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.wec.resume.ResumeApplication;
 import com.wec.resume.injection.scope.PerApplication;
 
@@ -47,5 +49,11 @@ public class ApplicationModule {
         return EventBus.getDefault();
     }
 
-
+    @Provides
+    @PerApplication
+    public Gson provideGson() {
+        return new GsonBuilder()
+                .setDateFormat("dd-MM-yyyy")
+                .create();
+    }
 }

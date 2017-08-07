@@ -57,7 +57,7 @@ dependencies {
     compile "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
     compile 'com.github.bumptech.glide:glide:3.8.0'
-    compile 'com.google.code.gson:gson:2.8.1'
+    compile 'com.google.code.gson:gson:2.8.0'
     compile 'org.greenrobot:eventbus:3.0.0'
 
     provided "org.projectlombok:lombok:1.16.18"

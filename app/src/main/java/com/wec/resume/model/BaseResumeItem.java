@@ -1,5 +1,7 @@
 package com.wec.resume.model;
 
+import java.util.List;
+
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -9,7 +11,8 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public abstract class BaseResumeItem {
+public abstract class BaseResumeItem<T> {
     private String title;
     private String cover;
+    private List<T> items;
 }

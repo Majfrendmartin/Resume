@@ -7,6 +7,6 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class Skill {
-    private String name;
+    private String description;
     private int level;
 }
