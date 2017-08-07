@@ -5,4 +5,9 @@ package com.wec.resume.model;
  */
 
 public class EducationItem extends BaseResumeItem<Education> {
+
+    @Override
+    public ResumeItemType getType() {
+        return ResumeItemType.EDUCATION;
+    }
 }

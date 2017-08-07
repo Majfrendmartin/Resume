@@ -2,7 +2,10 @@ package com.wec.resume.presenter;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
+import com.wec.resume.model.BaseResumeItem;
+import com.wec.resume.model.BaseResumeItem.ResumeItemType;
 import com.wec.resume.model.event.ResumeUpdatedEvent;
 import com.wec.resume.model.usecase.FetchSectionsUsecase;
 import com.wec.resume.view.MainActivityFragmentView;
@@ -51,7 +54,7 @@ public class MainActivityFragmentPresenterImpl extends AbstractFragmentPresenter
     }
 
     @Subscribe(sticky = true)
-    public void onResumeUpdated(ResumeUpdatedEvent resumeUpdatedEvent) {
+    public void onResumeUpdated(@NonNull ResumeUpdatedEvent resumeUpdatedEvent) {
         cleanUpDisposable();
 
         fetchSectionsDisposable = fetchSectionsUsecase.execute()
@@ -63,5 +66,12 @@ public class MainActivityFragmentPresenterImpl extends AbstractFragmentPresenter
                                 getView().showList(baseResumeItems);
                             }
                         }, Throwable::printStackTrace);
+    }
+
+    @Override
+    public void onSectionClicked(@NonNull ResumeItemType baseResumeItem) {
+        if(isViewBounded()) {
+            getView().navigateToDetails(baseResumeItem);
+        }
     }
 }

@@ -12,7 +12,14 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public abstract class BaseResumeItem<T> {
+
+    public enum ResumeItemType {
+        EDUCATION, JOBS, SKILLS
+    }
+
     private String title;
     private String cover;
     private List<T> items;
+
+    public abstract ResumeItemType getType();
 }

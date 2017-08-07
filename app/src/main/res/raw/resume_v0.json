@@ -17,14 +17,66 @@
   },
   "education": {
     "title": "Education",
-    "cover": "http://www.123mobilewallpapers.com/wp-content/uploads/2014/07/danbo_in_forest.jpg"
+    "cover": "http://www.123mobilewallpapers.com/wp-content/uploads/2014/07/danbo_in_forest.jpg",
+    "items": [
+      {
+        "school": "Bialystok University of Technology (Politechnika Białostocka)",
+        "faculty": "Computer Science",
+        "degree": "Master Degree",
+        "speciality": "Graphic and multimedia systems",
+        "start_year": 2013,
+        "end_year": 2014
+      },
+      {
+        "school": "Bialystok University of Technology (Politechnika Białostocka)",
+        "faculty": "Computer Science",
+        "degree": "Bachelor of Science",
+        "start_year": 2009,
+        "end_year": 2013
+      }
+    ]
   },
   "jobs": {
     "title": "Work Experience",
-    "cover": "http://tremendouswallpapers.com/wp-content/uploads/2015/07/Fresh-atmosphere-computers-desktop-wallpaper-640x480.jpg"
+    "cover": "http://tremendouswallpapers.com/wp-content/uploads/2015/07/Fresh-atmosphere-computers-desktop-wallpaper-640x480.jpg",
+    "items": [
+      {
+        "company": "Grape Up Sp. z o.o.",
+        "position": "Software Developer",
+        "current": true,
+        "start_date": "01-05-2015",
+        "responsibilities": [
+          "Enterprise IM & VoIP system development (Android client)",
+          "Incorporating cloud systems development technologies"
+        ]
+      },
+      {
+        "company": "Omega Code Sp. z o.o.",
+        "position": "Mobile Software Developer",
+        "start_date": "01-06-2014",
+        "end_date": "01-05-2015",
+        "responsibilities": [
+          "Working on Android client for financial system of worldwide loan company",
+          "Android/iOS development for startups"
+        ]
+      }
+    ]
   },
   "skills": {
     "title": "Skills",
-    "cover": "http://wfiles.brothersoft.com/e6/android_189017-640x480.jpg"
+    "cover": "http://wfiles.brothersoft.com/e6/android_189017-640x480.jpg",
+    "items": [
+      {
+        "description" : "Android",
+        "level": 5
+      },
+      {
+        "description" : "iOS",
+        "level": 3
+      },
+      {
+        "description" : "CLOUD"
+      }
+    ]
   }
 }

@@ -44,14 +44,17 @@ public class RepositoryImpl implements Repository {
     private final Context context;
     private final Api api;
     private final EventBus eventBus;
+    private final Gson gson;
     private Resume currentResume;
     private Disposable loadUpdateSubscription;
 
-    public RepositoryImpl(Context context, SharedPreferences preferences, Retrofit retrofit, EventBus eventBus) {
+    public RepositoryImpl(Context context, SharedPreferences preferences, Retrofit retrofit,
+                          EventBus eventBus, Gson gson) {
         this.context = context;
         this.preferences = preferences;
         this.api = retrofit.create(Api.class);
         this.eventBus = eventBus;
+        this.gson = gson;
     }
 
     @Override
@@ -98,7 +101,7 @@ public class RepositoryImpl implements Repository {
 
     @Nullable
     private Resume extractResume(String resumeString) {
-        return isEmpty(resumeString) ? null : new Gson().fromJson(resumeString, Resume.class);
+        return isEmpty(resumeString) ? null : gson.fromJson(resumeString, Resume.class);
     }
 
     @Nullable
@@ -189,7 +192,7 @@ public class RepositoryImpl implements Repository {
 
         if (resume != extractResume(getStoredResumeString())) {
             final SharedPreferences.Editor edit = preferences.edit();
-            edit.putString(STORED_RESUME, new Gson().toJson(resume));
+            edit.putString(STORED_RESUME, gson.toJson(resume));
             edit.apply();
         }
 

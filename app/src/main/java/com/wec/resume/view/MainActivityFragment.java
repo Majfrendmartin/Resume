@@ -1,7 +1,10 @@
 package com.wec.resume.view;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,12 +27,16 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends AbstractPresenterFragment<MainActivityFragmentPresenter>
         implements MainActivityFragmentView {
+
+    public static final String KEY_EXTRA_SELECTED_TYPE = "KEY_EXTRA_SELECTED_TYPE";
 
     @BindView(R.id.rv_sections)
     RecyclerView rvSections;
@@ -55,6 +62,11 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
         rvSections.setLayoutManager(layoutManager);
         sectionsAdapter = new SectionsAdapter();
         rvSections.setAdapter(sectionsAdapter);
+        sectionsAdapter.getClickedItem()
+                .map(BaseResumeItem::getType)
+                .subscribe(type -> {
+                    presenter.onSectionClicked(type);
+                });
     }
 
     @Override
@@ -77,8 +89,15 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
     }
 
     @Override
-    public void showList(Collection<BaseResumeItem> sections) {
+    public void showList(@NonNull Collection<BaseResumeItem> sections) {
         sectionsAdapter.updateItems(sections);
+    }
+
+    @Override
+    public void navigateToDetails(@NonNull BaseResumeItem.ResumeItemType type) {
+        final Intent intent = new Intent(getContext(), DetailsActivity.class);
+        intent.putExtra(KEY_EXTRA_SELECTED_TYPE, type);
+        startActivity(intent);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -89,12 +108,15 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
         @BindView(R.id.iv_item_image)
         ImageView ivItemImage;
 
-        public ViewHolder(View view) {
+        @BindView(R.id.cv_content)
+        CardView cvContent;
+
+        ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
 
-        public void setupImage(String url) {
+        void setupImage(String url) {
             Glide.with(getContext())
                     .load(url)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -104,12 +126,18 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
 
     private class SectionsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
+        private PublishSubject<BaseResumeItem> onClickSubject = PublishSubject.create();
+
         private final List<BaseResumeItem> items = new CopyOnWriteArrayList<>();
 
-        public void updateItems(Collection<BaseResumeItem> items) {
+        void updateItems(Collection<BaseResumeItem> items) {
             this.items.clear();
             this.items.addAll(items);
             notifyDataSetChanged();
+        }
+
+        Observable<BaseResumeItem> getClickedItem() {
+            return onClickSubject;
         }
 
         @Override
@@ -124,6 +152,9 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
             final BaseResumeItem resumeItem = items.get(position);
             holder.tvTitle.setText(resumeItem.getTitle());
             holder.setupImage(resumeItem.getCover());
+            holder.cvContent.setOnClickListener(v -> {
+                onClickSubject.onNext(resumeItem);
+            });
         }
 
         @Override
