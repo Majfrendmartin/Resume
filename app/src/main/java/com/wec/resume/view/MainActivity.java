@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -103,8 +104,8 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
     }
 
     @Override
-    public void showSplashScreen() {
-        ivSplashScreen.setVisibility(VISIBLE);
+    public void showSplashScreen(boolean showSplashScreen) {
+        ivSplashScreen.setVisibility(showSplashScreen ? VISIBLE : GONE);
     }
 
     @Override

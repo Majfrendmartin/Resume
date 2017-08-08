@@ -79,4 +79,10 @@ public abstract class AbstractPresenterFragment<T extends FragmentPresenter<? ex
         presenter.onCreateView(savedInstanceState);
         return view;
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        presenter.onSaveInstanceState(outState);
+        super.onSaveInstanceState(outState);
+    }
 }

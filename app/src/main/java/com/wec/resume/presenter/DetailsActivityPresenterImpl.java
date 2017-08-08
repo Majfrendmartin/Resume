@@ -24,6 +24,13 @@ public class DetailsActivityPresenterImpl extends AbstractPresenter<DetailsActiv
     }
 
     @Override
+    public void homeButtonClicked() {
+        if(isViewBounded()){
+            getView().performUpNavigation();
+        }
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle bundle) {
         super.onCreate(bundle);
         fetchSectionByTypeUsecase.setType(sectionType);

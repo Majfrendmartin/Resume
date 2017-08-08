@@ -20,6 +20,7 @@ import static android.webkit.URLUtil.isValidUrl;
 public class MainActivityPresenterImpl extends AbstractPresenter<MainActivityView> implements MainActivityPresenter {
 
     private static final String TITLE_PLACEHOLDER = "%s %s";
+    private static final String SHOULD_SHOW_SPLASH_SCREEN = "SHOULD_SHOW_SPLASH_SCREEN";
     private final UpdateResumeUsecase updateResumeUsecase;
     private final FetchBioUsecase fetchBioUsecase;
     private Disposable updateResumeDisposable;
@@ -33,14 +34,21 @@ public class MainActivityPresenterImpl extends AbstractPresenter<MainActivityVie
     }
 
     @Override
-    public void onCreate(@Nullable Bundle bundle) {
-        super.onCreate(bundle);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         if (isViewBounded()) {
-            getView().showSplashScreen();
+            final boolean showSplashScreen = savedInstanceState == null || savedInstanceState.getBoolean(SHOULD_SHOW_SPLASH_SCREEN, true);
+            getView().showSplashScreen(showSplashScreen);
         }
 
         updateResume();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        bundle.putBoolean(SHOULD_SHOW_SPLASH_SCREEN, false);
+        super.onSaveInstanceState(bundle);
     }
 
     @Override

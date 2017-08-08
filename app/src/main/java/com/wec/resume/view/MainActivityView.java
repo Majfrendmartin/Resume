@@ -13,7 +13,7 @@ public interface MainActivityView extends View {
 
     void hideSplashScreen();
 
-    void showSplashScreen();
+    void showSplashScreen(boolean showSplashScreen);
 
     void showAndEnableSocialButtons();
 
