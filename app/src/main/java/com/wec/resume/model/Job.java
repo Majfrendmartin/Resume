@@ -1,6 +1,7 @@
 package com.wec.resume.model;
 
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
@@ -13,7 +14,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class Job {
+public class Job extends BaseItem {
     @SerializedName("current")
     private boolean isCurrent;
 
@@ -31,4 +32,10 @@ public class Job {
     private Date endDate;
 
     private List<String> responsibilities;
+
+    @NonNull
+    @Override
+    public String getTitle() {
+        return positionName;
+    }
 }

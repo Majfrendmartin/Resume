@@ -1,6 +1,7 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_5">5dp</dimen>
     <dimen name="status_bar_height">24dp</dimen>
     <dimen name="parallax_app_bar_height_tall">300dp</dimen>
     <dimen name="parallax_app_bar_height_short">204dp</dimen>

@@ -6,6 +6,8 @@ import com.wec.resume.model.usecase.FetchBioUsecase;
 import com.wec.resume.model.usecase.FetchSectionByTypeUsecase;
 import com.wec.resume.model.usecase.FetchSectionsUsecase;
 import com.wec.resume.model.usecase.UpdateResumeUsecase;
+import com.wec.resume.presenter.DetailsActivityFragmentPresenter;
+import com.wec.resume.presenter.DetailsActivityFragmentPresenterImpl;
 import com.wec.resume.presenter.DetailsActivityPresenter;
 import com.wec.resume.presenter.DetailsActivityPresenterImpl;
 import com.wec.resume.presenter.MainActivityFragmentPresenter;
@@ -40,5 +42,12 @@ public class PresenterModule {
     DetailsActivityPresenter provideDetailsActivityPresenter(
             FetchSectionByTypeUsecase fetchSectionByTypeUsecase) {
         return new DetailsActivityPresenterImpl(fetchSectionByTypeUsecase);
+    }
+
+    @Provides
+    @PerActivity
+    DetailsActivityFragmentPresenter provideDetailsActivityFragmentPresenter(
+            FetchSectionByTypeUsecase fetchSectionByTypeUsecase) {
+        return new DetailsActivityFragmentPresenterImpl(fetchSectionByTypeUsecase);
     }
 }

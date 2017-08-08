@@ -44,6 +44,7 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
 
     @BindView(R.id.rv_sections)
     RecyclerView rvSections;
+
     private SectionsAdapter sectionsAdapter;
 
     public MainActivityFragment() {

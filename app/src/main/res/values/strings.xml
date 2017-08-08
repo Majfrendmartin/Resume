@@ -3,4 +3,9 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_details">DetailsActivity</string>
     <string name="transition_cover">section_cover_transition</string>
+    <string name="period">Period:</string>
+    <string name="responsibilities">Responsibilities:</string>
+    <string name="date_placecholder_now" formatted="false">%s - now</string>
+    <string name="date_placecholder" formatted="false">%s - %s</string>
+    <string name="list_placeholder" formatted="false">- %s</string>
 </resources>

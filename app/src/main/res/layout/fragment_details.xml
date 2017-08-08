@@ -7,5 +7,9 @@
     tools:context="com.wec.resume.view.DetailsActivityFragment"
     tools:showIn="@layout/activity_details">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_items"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </android.support.constraint.ConstraintLayout>

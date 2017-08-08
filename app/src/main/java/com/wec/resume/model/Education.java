@@ -1,16 +1,16 @@
 package com.wec.resume.model;
 
 
-import com.google.gson.annotations.SerializedName;
+import android.support.annotation.NonNull;
 
-import java.util.Date;
+import com.google.gson.annotations.SerializedName;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class Education {
+public class Education extends BaseItem {
     private String degree;
     private String school;
     private String faculty;
@@ -18,4 +18,10 @@ public class Education {
     private int startYear;
     @SerializedName("end_year")
     private int endYear;
+
+    @NonNull
+    @Override
+    public String getTitle() {
+        return degree;
+    }
 }
