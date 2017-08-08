@@ -24,7 +24,9 @@ public class DetailsActivityFragmentPresenterImpl extends AbstractFragmentPresen
 
     @Override
     public void onItemClicked(int position) {
-
+        if (isViewBounded()) {
+            getView().showItemDetails(position);
+        }
     }
 
     @Override

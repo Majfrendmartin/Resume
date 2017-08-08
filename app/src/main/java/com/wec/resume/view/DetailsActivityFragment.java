@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.transition.TransitionManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -121,6 +122,15 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
         adapter.updateItems(items, type);
     }
 
+    @Override
+    public void showItemDetails(int position) {
+        final JobHolder jobHolder = (JobHolder) rvItems.findViewHolderForAdapterPosition(position);
+        final ViewGroup layoutDetails = jobHolder.layoutDetails;
+        //TODO - better handle this
+        TransitionManager.beginDelayedTransition(rvItems);
+        layoutDetails.setVisibility(layoutDetails.getVisibility() == VISIBLE ? GONE : VISIBLE);
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.tv_title)
@@ -163,6 +173,9 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
 
         @BindView(R.id.tv_responsibilities)
         TextView tvResponsibilities;
+
+        @BindView(R.id.layout_details)
+        ViewGroup layoutDetails;
 
         JobHolder(View view) {
             super(view);
@@ -246,7 +259,7 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
             if (itemViewType == EDUCATION.ordinal()) {
                 bindEducationHolder((EducationHolder) holder, (Education) baseItem);
             } else if (itemViewType == JOBS.ordinal()) {
-                bindJobHolder((JobHolder) holder, (Job) baseItem);
+                bindJobHolder((JobHolder) holder, (Job) baseItem, position);
             } else if (itemViewType == SKILLS.ordinal()) {
                 bindSkillHolder((SkillHolder) holder, (Skill) baseItem);
             }
@@ -275,7 +288,7 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
                     Integer.toString(education.getEndYear())));
         }
 
-        private void bindJobHolder(JobHolder jobHolder, Job job) {
+        private void bindJobHolder(JobHolder jobHolder, Job job, final int position) {
             jobHolder.tvPosition.setText(job.getPositionName());
 
             final Date startDate = job.getStartDate();
@@ -307,6 +320,8 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
                 jobHolder.tvTime.setText(Integer.toString(months));
                 jobHolder.tvTimeUnit.setText(getResources().getQuantityString(R.plurals.plural_year, months));
             }
+
+            jobHolder.cvContent.setOnClickListener(v -> onClickSubject.onNext(position));
         }
 
         private int calculateMonthsBetween(Date startDate, Date endDate) {

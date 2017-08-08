@@ -9,4 +9,6 @@ import java.util.Collection;
 
 public interface DetailsActivityFragmentView extends View {
     void showList(@NonNull Collection<BaseItem> items, int type);
+
+    void showItemDetails(int position);
 }
