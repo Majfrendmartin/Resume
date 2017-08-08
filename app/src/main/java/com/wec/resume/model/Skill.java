@@ -9,12 +9,13 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class Skill extends BaseItem {
+    private String name;
     private String description;
     private int level;
 
     @NonNull
     @Override
     public String getTitle() {
-        return description;
+        return name;
     }
 }

@@ -8,4 +8,5 @@
     <string name="date_placecholder_now" formatted="false">%s - now</string>
     <string name="date_placecholder" formatted="false">%s - %s</string>
     <string name="list_placeholder" formatted="false">- %s</string>
+    <string name="school_placeholder" formatted="false">%s, %s</string>
 </resources>

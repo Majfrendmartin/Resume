@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -23,6 +24,7 @@ import com.wec.resume.model.BaseItem;
 import com.wec.resume.model.Education;
 import com.wec.resume.model.Job;
 import com.wec.resume.model.Section.SectionType;
+import com.wec.resume.model.Skill;
 import com.wec.resume.presenter.DetailsActivityFragmentPresenter;
 
 import java.io.Serializable;
@@ -43,8 +45,11 @@ import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static com.wec.resume.model.Section.SectionType.EDUCATION;
 import static com.wec.resume.model.Section.SectionType.JOBS;
+import static com.wec.resume.model.Section.SectionType.SKILLS;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -121,6 +126,7 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
         @BindView(R.id.tv_title)
         TextView tvTitle;
 
+        @Nullable
         @BindView(R.id.iv_item_image)
         ImageView ivItemImage;
 
@@ -178,8 +184,21 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
         }
     }
 
+    class SkillHolder extends ViewHolder {
+
+        @BindView(R.id.tv_description)
+        TextView tvDescription;
+
+        @BindView(R.id.pb_level)
+        ProgressBar pbLevel;
+
+        SkillHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
+    }
+
     private class ItemsAdapter extends RecyclerView.Adapter<DetailsActivityFragment.ViewHolder> {
-        public static final String DATE_PLACEHOLDER = "%s - %s";
         private PublishSubject<Integer> onClickSubject = PublishSubject.create();
 
         private final List<BaseItem> items = new CopyOnWriteArrayList<>();
@@ -209,6 +228,10 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.job_item, parent, false);
                 return new JobHolder(view);
+            } else if (type == SKILLS.ordinal()) {
+                view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.skill_item, parent, false);
+                return new SkillHolder(view);
             }
 
             return new DetailsActivityFragment.ViewHolder(view);
@@ -221,46 +244,68 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
 
             final int itemViewType = holder.getItemViewType();
             if (itemViewType == EDUCATION.ordinal()) {
-                final Education educationItem = (Education) baseItem;
-                final EducationHolder educationHolder = (EducationHolder) holder;
-                educationHolder.tvSchool.setText(String.format("%s, %s",
-                        educationItem.getSchool(), educationItem.getFaculty()));
-                educationHolder.tvPeriod.setText(String.format(DATE_PLACEHOLDER,
-                        educationItem.getStartYear(), educationItem.getEndYear()));
+                bindEducationHolder((EducationHolder) holder, (Education) baseItem);
             } else if (itemViewType == JOBS.ordinal()) {
-                final Job job = (Job) baseItem;
-                final JobHolder jobHolder = (JobHolder) holder;
+                bindJobHolder((JobHolder) holder, (Job) baseItem);
+            } else if (itemViewType == SKILLS.ordinal()) {
+                bindSkillHolder((SkillHolder) holder, (Skill) baseItem);
+            }
+        }
 
-                jobHolder.tvPosition.setText(job.getPositionName());
-                final Date startDate = job.getStartDate();
-                final Date endDate = job.getEndDate();
+        private void bindSkillHolder(SkillHolder skillHolder, Skill skill) {
+            final String description = skill.getDescription();
+            if (TextUtils.isEmpty(description)) {
+                skillHolder.tvDescription.setVisibility(GONE);
+            } else {
+                skillHolder.tvDescription.setVisibility(VISIBLE);
+                skillHolder.tvDescription.setText(description);
+            }
 
-                final String dateString = job.isCurrent() ?
-                        getString(R.string.date_placecholder_now, MONTH_YEAR_DATE_FORMATTER.format(startDate)) :
-                        getString(R.string.date_placecholder, MONTH_YEAR_DATE_FORMATTER.format(startDate),
-                                MONTH_YEAR_DATE_FORMATTER.format(endDate));
+            final int skillLevel = skill.getLevel();
+            skillHolder.pbLevel.setVisibility(skillLevel > 0 ? VISIBLE : GONE);
+            skillHolder.pbLevel.setProgress(skillLevel);
+        }
 
-                jobHolder.tvPeriod.setText(dateString);
+        private void bindEducationHolder(EducationHolder educationHolder, Education education) {
+            educationHolder.tvSchool.setText(getString(R.string.school_placeholder,
+                    education.getSchool(), education.getFaculty()));
 
-                final List<String> responsibilities = job.getResponsibilities();
-                final List<String> prefixedItems = new ArrayList<>(responsibilities.size());
+            educationHolder.tvPeriod.setText(getString(R.string.date_placecholder,
+                    Integer.toString(education.getStartYear()),
+                    Integer.toString(education.getEndYear())));
+        }
 
-                for (String s : responsibilities) {
-                    prefixedItems.add(getString(R.string.list_placeholder, s));
-                }
+        private void bindJobHolder(JobHolder jobHolder, Job job) {
+            jobHolder.tvPosition.setText(job.getPositionName());
 
-                jobHolder.tvResponsibilities.setText(TextUtils.join("\n", prefixedItems));
+            final Date startDate = job.getStartDate();
+            final Date endDate = job.getEndDate();
 
-                final int months = calculateMonthsBetween(startDate, job.isCurrent() ? new Date() : endDate);
+            final String dateString = job.isCurrent() ?
+                    getString(R.string.date_placecholder_now, MONTH_YEAR_DATE_FORMATTER.format(startDate)) :
+                    getString(R.string.date_placecholder, MONTH_YEAR_DATE_FORMATTER.format(startDate),
+                            MONTH_YEAR_DATE_FORMATTER.format(endDate));
 
-                if (months >= MONTHS_COUNT) {
-                    final float years = months / MONTHS_COUNT;
-                    jobHolder.tvTime.setText(DECIMAL_FORMAT.format(years));
-                    jobHolder.tvTimeUnit.setText(getResources().getQuantityString(R.plurals.plural_year, Math.round(years)));
-                } else {
-                    jobHolder.tvTime.setText(Integer.toString(months));
-                    jobHolder.tvTimeUnit.setText(getResources().getQuantityString(R.plurals.plural_year, months));
-                }
+            jobHolder.tvPeriod.setText(dateString);
+
+            final List<String> responsibilities = job.getResponsibilities();
+            final List<String> prefixedItems = new ArrayList<>(responsibilities.size());
+
+            for (String s : responsibilities) {
+                prefixedItems.add(getString(R.string.list_placeholder, s));
+            }
+
+            jobHolder.tvResponsibilities.setText(TextUtils.join("\n", prefixedItems));
+
+            final int months = calculateMonthsBetween(startDate, job.isCurrent() ? new Date() : endDate);
+
+            if (months >= MONTHS_COUNT) {
+                final float years = months / MONTHS_COUNT;
+                jobHolder.tvTime.setText(DECIMAL_FORMAT.format(years));
+                jobHolder.tvTimeUnit.setText(getResources().getQuantityString(R.plurals.plural_year, Math.round(years)));
+            } else {
+                jobHolder.tvTime.setText(Integer.toString(months));
+                jobHolder.tvTimeUnit.setText(getResources().getQuantityString(R.plurals.plural_year, months));
             }
         }
 
