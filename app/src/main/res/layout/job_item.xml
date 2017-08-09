@@ -66,7 +66,7 @@
                 android:layout_alignBottom="@id/ll_years"
                 android:layout_alignTop="@id/ll_years"
                 android:layout_toStartOf="@id/ll_years"
-                android:background="@color/colorPrimaryDark"/>
+                android:background="@color/divider"/>
 
             <LinearLayout
                 android:id="@id/ll_description"
