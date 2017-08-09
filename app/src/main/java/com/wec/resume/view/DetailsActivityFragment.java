@@ -1,5 +1,6 @@
 package com.wec.resume.view;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -62,6 +63,8 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
     private static final float MONTHS_COUNT = 12f;
     private final static SimpleDateFormat MONTH_YEAR_DATE_FORMATTER = new SimpleDateFormat("MMMM yyyy", Locale.UK);
     private final static DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.#");
+    public static final int PROGRESS_BAR_LEVEL_MULTIPLIER = 20;
+
     {
         DECIMAL_FORMAT.setRoundingMode(RoundingMode.CEILING);
     }
@@ -278,7 +281,10 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
 
             final int skillLevel = skill.getLevel();
             skillHolder.pbLevel.setVisibility(skillLevel > 0 ? VISIBLE : GONE);
-            skillHolder.pbLevel.setProgress(skillLevel);
+
+            ObjectAnimator.ofInt(skillHolder.pbLevel, "progress", 0, skillLevel * PROGRESS_BAR_LEVEL_MULTIPLIER)
+                    .setDuration(1000)
+                    .start();
         }
 
         private void bindEducationHolder(EducationHolder educationHolder, Education education) {

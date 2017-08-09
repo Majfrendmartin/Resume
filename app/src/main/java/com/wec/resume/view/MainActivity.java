@@ -152,19 +152,19 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
                 fabX - ((buttonWidth + buttonMargin) * itemPosition) :
                 startPosition;
 
-        final ObjectAnimator animator = ObjectAnimator.ofFloat(button, PROPERTY_NAME_X, button.getX(), endXValue);
-        animator.setDuration(itemPosition * ANIMATION_TIME_MILLIS);
-        animator.setInterpolator(new FastOutSlowInInterpolator());
-        animator.start();
+        final ObjectAnimator objectAnimator =
+                ObjectAnimator.ofFloat(button, PROPERTY_NAME_X, button.getX(), endXValue)
+                        .setDuration(itemPosition * ANIMATION_TIME_MILLIS);
+        objectAnimator.setInterpolator(new FastOutSlowInInterpolator());
+        objectAnimator.start();
     }
 
     @Override
     public void setSocialButtonToSelected(boolean socialButtonSelected) {
-        final ObjectAnimator imageViewObjectAnimator = ObjectAnimator.ofFloat(fab,
-                PROPERTY_NAME_ROTATION, fab.getRotation(),
-                socialButtonSelected ? SELECTED_ROTATION_VALUE : DEFAULT_ROTATION_VALUE);
-        imageViewObjectAnimator.setDuration(ANIMATION_TIME_MILLIS);
-        imageViewObjectAnimator.start();
+        ObjectAnimator.ofFloat(fab, PROPERTY_NAME_ROTATION, fab.getRotation(),
+                socialButtonSelected ? SELECTED_ROTATION_VALUE : DEFAULT_ROTATION_VALUE)
+                .setDuration(ANIMATION_TIME_MILLIS)
+                .start();
     }
 
     @Override
