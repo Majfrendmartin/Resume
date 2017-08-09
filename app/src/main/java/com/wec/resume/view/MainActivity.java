@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -62,6 +63,9 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
     @BindView(R.id.collapse_toolbar)
     CollapsingToolbarLayout collapsingToolbarLayout;
 
+    @BindView(R.id.app_bar_layout)
+    AppBarLayout appBarLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +81,13 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
 
         presenter.bindView(this);
         onCreateAfterInjection(savedInstanceState);
+        appBarLayout.addOnOffsetChangedListener(this::updateToolbarImageAlpha);
+    }
+
+    private void updateToolbarImageAlpha(AppBarLayout appBarLayout1, float verticalOffset) {
+        final int totalScrollRange = appBarLayout1.getTotalScrollRange();
+        final float imageAlpha = (totalScrollRange + verticalOffset) / (float) totalScrollRange;
+        ivToolbarParallaxBackground.setAlpha(imageAlpha);
     }
 
     @Override
