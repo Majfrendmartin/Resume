@@ -8,12 +8,13 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.wec.resume.R;
+import com.wec.resume.model.AboutSection;
 import com.wec.resume.model.Bio;
-import com.wec.resume.model.EducationItem;
-import com.wec.resume.model.JobsItem;
+import com.wec.resume.model.EducationSection;
+import com.wec.resume.model.JobsSection;
 import com.wec.resume.model.Resume;
 import com.wec.resume.model.Section;
-import com.wec.resume.model.SkillsItem;
+import com.wec.resume.model.SkillsSection;
 import com.wec.resume.model.event.ResumeUpdatedEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -172,19 +173,24 @@ public class RepositoryImpl implements Repository {
     private List<Section> getSectionsList() {
         final List<Section> items = new ArrayList<>(3);
 
-        final EducationItem education = currentResume.getEducation();
-        if (education != null) {
-            items.add(education);
+        final EducationSection educationSection = currentResume.getEducation();
+        if (educationSection != null) {
+            items.add(educationSection);
         }
 
-        final JobsItem jobs = currentResume.getJobs();
-        if (jobs != null) {
-            items.add(jobs);
+        final JobsSection jobsSection = currentResume.getJobs();
+        if (jobsSection != null) {
+            items.add(jobsSection);
         }
 
-        final SkillsItem skillsItem = currentResume.getSkills();
-        if (skillsItem != null) {
-            items.add(skillsItem);
+        final SkillsSection skillsSection = currentResume.getSkills();
+        if (skillsSection != null) {
+            items.add(skillsSection);
+        }
+
+        final AboutSection aboutSection = currentResume.getAbout();
+        if (aboutSection != null) {
+            items.add(aboutSection);
         }
         return items;
     }
@@ -209,6 +215,9 @@ public class RepositoryImpl implements Repository {
                     break;
                 case SKILLS:
                     selectedSection = currentResume.getSkills();
+                    break;
+                case ABOUT:
+                    selectedSection = currentResume.getAbout();
                     break;
                 default:
                     selectedSection = null;
