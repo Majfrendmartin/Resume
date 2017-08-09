@@ -50,6 +50,26 @@
                     android:textStyle="italic"
                     tools:text="Hogwart"/>
 
+                <LinearLayout
+                    android:id="@+id/ll_speciality"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_5"
+                        android:text="@string/speciality"/>
+
+                    <TextView
+                        android:id="@+id/tv_speciality"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="italic"
+                        tools:text="Elixirs"/>
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/tv_period"
                     android:layout_width="match_parent"

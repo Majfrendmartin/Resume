@@ -48,6 +48,7 @@ import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
+import static android.text.TextUtils.isEmpty;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.wec.resume.model.Section.SectionType.EDUCATION;
@@ -190,6 +191,12 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
         @BindView(R.id.tv_period)
         TextView tvPeriod;
 
+        @BindView(R.id.tv_speciality)
+        TextView tvSpeciality;
+
+        @BindView(R.id.ll_speciality)
+        ViewGroup llSpeciality;
+
         EducationHolder(View view) {
             super(view);
         }
@@ -270,7 +277,7 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
 
         private void bindSkillHolder(SkillHolder skillHolder, Skill skill) {
             final String description = skill.getDescription();
-            if (TextUtils.isEmpty(description)) {
+            if (isEmpty(description)) {
                 skillHolder.tvDescription.setVisibility(GONE);
             } else {
                 skillHolder.tvDescription.setVisibility(VISIBLE);
@@ -292,6 +299,14 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
             educationHolder.tvPeriod.setText(getString(R.string.date_placecholder,
                     Integer.toString(education.getStartYear()),
                     Integer.toString(education.getEndYear())));
+
+            final String speciality = education.getSpeciality();
+            if (isEmpty(speciality)) {
+                educationHolder.llSpeciality.setVisibility(GONE);
+            }else {
+                educationHolder.llSpeciality.setVisibility(VISIBLE);
+                educationHolder.tvSpeciality.setText(speciality);
+            }
 
             educationHolder.setupImage(education.getCover());
         }

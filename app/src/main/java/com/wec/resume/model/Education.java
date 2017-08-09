@@ -21,6 +21,8 @@ public class Education extends BaseItem {
 
     private String cover;
 
+    private String speciality;
+
     @NonNull
     @Override
     public String getTitle() {
