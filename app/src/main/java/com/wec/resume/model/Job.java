@@ -36,6 +36,6 @@ public class Job extends BaseItem {
     @NonNull
     @Override
     public String getTitle() {
-        return positionName;
+        return companyName;
     }
 }

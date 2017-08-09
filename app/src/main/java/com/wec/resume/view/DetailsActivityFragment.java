@@ -61,6 +61,7 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
     private final static SimpleDateFormat MONTH_YEAR_DATE_FORMATTER = new SimpleDateFormat("MMMM yyyy", Locale.UK);
     private final static DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.#");
     public static final float MONTHS_COUNT = 12f;
+    public static final int NOTHING_SELECTED_POSITION = -1;
 
     {
         DECIMAL_FORMAT.setRoundingMode(RoundingMode.CEILING);
@@ -124,11 +125,7 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
 
     @Override
     public void showItemDetails(int position) {
-        final JobHolder jobHolder = (JobHolder) rvItems.findViewHolderForAdapterPosition(position);
-        final ViewGroup layoutDetails = jobHolder.layoutDetails;
-        //TODO - better handle this
-        TransitionManager.beginDelayedTransition(rvItems);
-        layoutDetails.setVisibility(layoutDetails.getVisibility() == VISIBLE ? GONE : VISIBLE);
+        adapter.changeItemDetailsVisibility(position);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -216,12 +213,19 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
 
         private final List<BaseItem> items = new CopyOnWriteArrayList<>();
         private int type;
+        private int expandedPosition = 0;
 
         void updateItems(Collection<BaseItem> items, int type) {
             this.items.clear();
             this.items.addAll(items);
             this.type = type;
             notifyDataSetChanged();
+        }
+
+        void changeItemDetailsVisibility(int position) {
+            expandedPosition = expandedPosition == position ? NOTHING_SELECTED_POSITION : position;
+            TransitionManager.beginDelayedTransition(rvItems);
+            adapter.notifyDataSetChanged();
         }
 
         Observable<Integer> getClickedItem() {
@@ -318,10 +322,12 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
                 jobHolder.tvTimeUnit.setText(getResources().getQuantityString(R.plurals.plural_year, Math.round(years)));
             } else {
                 jobHolder.tvTime.setText(Integer.toString(months));
-                jobHolder.tvTimeUnit.setText(getResources().getQuantityString(R.plurals.plural_year, months));
+                jobHolder.tvTimeUnit.setText(getResources().getQuantityString(R.plurals.plural_month, months));
             }
 
             jobHolder.cvContent.setOnClickListener(v -> onClickSubject.onNext(position));
+
+            jobHolder.layoutDetails.setVisibility(position == expandedPosition ? VISIBLE : GONE);
         }
 
         private int calculateMonthsBetween(Date startDate, Date endDate) {
