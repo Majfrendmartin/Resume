@@ -22,17 +22,19 @@
       {
         "school": "Bialystok University of Technology (Politechnika Białostocka)",
         "faculty": "Computer Science",
-        "degree": "Master Degree",
+        "degree": "Master of Science",
         "speciality": "Graphic and multimedia systems",
         "start_year": 2013,
-        "end_year": 2014
+        "end_year": 2014,
+        "cover": "https://cdn1.iconfinder.com/data/icons/ios-7-style-metro-ui-icons/512/MetroUI_OS_Android.png"
       },
       {
         "school": "Bialystok University of Technology (Politechnika Białostocka)",
         "faculty": "Computer Science",
         "degree": "Bachelor of Science",
         "start_year": 2009,
-        "end_year": 2013
+        "end_year": 2013,
+        "cover": "https://cdn1.iconfinder.com/data/icons/ios-7-style-metro-ui-icons/512/MetroUI_OS_Android.png"
       }
     ]
   },
@@ -41,24 +43,26 @@
     "cover": "http://tremendouswallpapers.com/wp-content/uploads/2015/07/Fresh-atmosphere-computers-desktop-wallpaper-640x480.jpg",
     "items": [
       {
-        "company": "Grape Up Sp. z o.o.",
+        "company": "GOOGLE",
         "position": "Software Developer",
         "current": true,
         "start_date": "01-05-2015",
         "responsibilities": [
-          "Enterprise IM & VoIP system development (Android client)",
+          "IM & VoIP system development (Android client)",
           "Incorporating cloud systems development technologies"
-        ]
+        ],
+        "cover": "https://media.licdn.com/mpr/mpr/shrink_200_200/AAEAAQAAAAAAAALTAAAAJGY1NGY1N2ZhLTNmZmUtNGRmZi1iMDgxLTJjZjdkNjNkYmZlOQ.png"
       },
       {
-        "company": "Omega Code Sp. z o.o.",
+        "company": "JetBrains",
         "position": "Mobile Software Developer",
         "start_date": "01-06-2014",
         "end_date": "01-05-2015",
         "responsibilities": [
-          "Working on Android client for financial system of worldwide loan company",
+          "Working on Android client for system of worldwide hospitality company",
           "Android/iOS development for startups"
-        ]
+        ],
+        "cover": "https://media.licdn.com/mpr/mpr/shrink_200_200/AAEAAQAAAAAAAAYjAAAAJDUwZjc3ODdjLTE5NzItNDM4ZC1hOGY4LWFjNjA4NzdhMjI0Mw.png"
       }
     ]
   },
@@ -79,6 +83,15 @@
       {
         "name": "CLOUD",
         "description": "CLOUD bla bla bla"
+      }
+    ]
+  },
+  "about": {
+    "title": "About",
+    "cover": "http://wfiles.brothersoft.com/e6/android_189017-640x480.jpg",
+    "items": [
+      {
+        "note": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at elit et erat bibendum porta eu ac orci. Cras malesuada ornare sapien a gravida. Nam id ex congue, efficitur est at, rutrum justo. Ut leo risus, interdum in fermentum eget, interdum volutpat dui. Donec malesuada cursus odio non ultricies. Sed egestas dapibus diam gravida vestibulum. Aenean at felis quis risus convallis pellentesque consectetur ut augue. Praesent accumsan quis nulla ut sodales. Etiam ipsum nisl, mattis quis pellentesque eget, dictum ut orci. Suspendisse potenti."
       }
     ]
   }
