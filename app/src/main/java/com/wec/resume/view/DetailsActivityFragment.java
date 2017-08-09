@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.wec.resume.R;
@@ -24,6 +26,7 @@ import com.wec.resume.injection.module.PresenterModule;
 import com.wec.resume.model.BaseItem;
 import com.wec.resume.model.Education;
 import com.wec.resume.model.Job;
+import com.wec.resume.model.ModalPair;
 import com.wec.resume.model.Section.SectionType;
 import com.wec.resume.model.Skill;
 import com.wec.resume.presenter.DetailsActivityFragmentPresenter;
@@ -32,9 +35,7 @@ import java.io.Serializable;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -58,11 +59,9 @@ import static com.wec.resume.model.Section.SectionType.SKILLS;
 public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsActivityFragmentPresenter>
         implements DetailsActivityFragmentView {
 
+    private static final float MONTHS_COUNT = 12f;
     private final static SimpleDateFormat MONTH_YEAR_DATE_FORMATTER = new SimpleDateFormat("MMMM yyyy", Locale.UK);
     private final static DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.#");
-    public static final float MONTHS_COUNT = 12f;
-    public static final int NOTHING_SELECTED_POSITION = -1;
-
     {
         DECIMAL_FORMAT.setRoundingMode(RoundingMode.CEILING);
     }
@@ -119,13 +118,13 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
 
 
     @Override
-    public void showList(@NonNull Collection<BaseItem> items, int type) {
+    public void showList(@NonNull List<ModalPair<BaseItem, Boolean>> items, int type) {
         adapter.updateItems(items, type);
     }
 
     @Override
-    public void showItemDetails(int position) {
-        adapter.changeItemDetailsVisibility(position);
+    public void showItemDetails(int position, boolean visibility) {
+        adapter.changeItemDetailsVisibility(position, visibility);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -209,23 +208,22 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
     }
 
     private class ItemsAdapter extends RecyclerView.Adapter<DetailsActivityFragment.ViewHolder> {
+        private final List<ModalPair<BaseItem, Boolean>> items = new CopyOnWriteArrayList<>();
         private PublishSubject<Integer> onClickSubject = PublishSubject.create();
-
-        private final List<BaseItem> items = new CopyOnWriteArrayList<>();
         private int type;
-        private int expandedPosition = 0;
 
-        void updateItems(Collection<BaseItem> items, int type) {
+        void updateItems(List<ModalPair<BaseItem, Boolean>> items, int type) {
             this.items.clear();
             this.items.addAll(items);
             this.type = type;
             notifyDataSetChanged();
         }
 
-        void changeItemDetailsVisibility(int position) {
-            expandedPosition = expandedPosition == position ? NOTHING_SELECTED_POSITION : position;
+        void changeItemDetailsVisibility(int position, boolean visibility) {
+            final JobHolder jobHolder = (JobHolder) rvItems.findViewHolderForAdapterPosition(position);
+            final ViewGroup layoutDetails = jobHolder.layoutDetails;
             TransitionManager.beginDelayedTransition(rvItems);
-            adapter.notifyDataSetChanged();
+            layoutDetails.setVisibility(visibility ? VISIBLE : GONE);
         }
 
         Observable<Integer> getClickedItem() {
@@ -256,14 +254,14 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
 
         @Override
         public void onBindViewHolder(DetailsActivityFragment.ViewHolder holder, final int position) {
-            final BaseItem baseItem = items.get(position);
+            final BaseItem baseItem = items.get(position).first;
             holder.tvTitle.setText(baseItem.getTitle());
 
             final int itemViewType = holder.getItemViewType();
             if (itemViewType == EDUCATION.ordinal()) {
                 bindEducationHolder((EducationHolder) holder, (Education) baseItem);
             } else if (itemViewType == JOBS.ordinal()) {
-                bindJobHolder((JobHolder) holder, (Job) baseItem, position);
+                bindJobHolder((JobHolder) holder, (Job) baseItem, items.get(position).second, position);
             } else if (itemViewType == SKILLS.ordinal()) {
                 bindSkillHolder((SkillHolder) holder, (Skill) baseItem);
             }
@@ -292,7 +290,7 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
                     Integer.toString(education.getEndYear())));
         }
 
-        private void bindJobHolder(JobHolder jobHolder, Job job, final int position) {
+        private void bindJobHolder(JobHolder jobHolder, Job job, Boolean detailsVisibility, final int position) {
             jobHolder.tvPosition.setText(job.getPositionName());
 
             final Date startDate = job.getStartDate();
@@ -305,14 +303,10 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
 
             jobHolder.tvPeriod.setText(dateString);
 
-            final List<String> responsibilities = job.getResponsibilities();
-            final List<String> prefixedItems = new ArrayList<>(responsibilities.size());
-
-            for (String s : responsibilities) {
-                prefixedItems.add(getString(R.string.list_placeholder, s));
-            }
-
-            jobHolder.tvResponsibilities.setText(TextUtils.join("\n", prefixedItems));
+            jobHolder.tvResponsibilities.setText(TextUtils.join("\n",
+                    Stream.of(job.getResponsibilities())
+                            .map(s -> getString(R.string.list_placeholder, s))
+                            .collect(Collectors.toList())));
 
             final int months = calculateMonthsBetween(startDate, job.isCurrent() ? new Date() : endDate);
 
@@ -327,7 +321,7 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
 
             jobHolder.cvContent.setOnClickListener(v -> onClickSubject.onNext(position));
 
-            jobHolder.layoutDetails.setVisibility(position == expandedPosition ? VISIBLE : GONE);
+            jobHolder.layoutDetails.setVisibility(detailsVisibility ? VISIBLE : GONE);
         }
 
         private int calculateMonthsBetween(Date startDate, Date endDate) {

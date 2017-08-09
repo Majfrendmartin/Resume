@@ -69,7 +69,7 @@ public class MainActivityFragmentPresenterImpl extends AbstractFragmentPresenter
 
     @Override
     public void onSectionClicked(@NonNull SectionType baseResumeItem, int position) {
-        if(isViewBounded()) {
+        if (isViewBounded()) {
             getView().navigateToDetails(baseResumeItem, position);
         }
     }

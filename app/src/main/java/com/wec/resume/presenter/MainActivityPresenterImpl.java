@@ -4,6 +4,7 @@ package com.wec.resume.presenter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.annimon.stream.Stream;
 import com.wec.resume.model.Bio;
 import com.wec.resume.model.Social;
 import com.wec.resume.model.Social.Type;
@@ -104,9 +105,8 @@ public class MainActivityPresenterImpl extends AbstractPresenter<MainActivityVie
 
                         if (socials != null && socials.length > 0) {
                             view.showAndEnableSocialButtons();
-                            for (final Social social : socials) {
-                                view.enableButtonByType(social.getType());
-                            }
+                            Stream.of(socials)
+                                    .forEach(social -> view.enableButtonByType(social.getType()));
                         }
                     }
                 });
@@ -139,13 +139,11 @@ public class MainActivityPresenterImpl extends AbstractPresenter<MainActivityVie
         if (!isViewBounded()) {
             return;
         }
-        final Social[] socials = bio.getSocials();
-        for (final Social social : socials) {
-            if (social.getType() == type) {
-                getView().navigateToURL(social.getUrl());
-                return;
-            }
-        }
+
+        Stream.of(bio.getSocials())
+                .filter(value -> value.getType() == type)
+                .findFirst()
+                .ifPresent(social -> getView().navigateToURL(social.getUrl()));
     }
 
     public void setBio(Bio bio) {

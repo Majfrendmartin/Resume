@@ -25,7 +25,7 @@ public class DetailsActivityPresenterImpl extends AbstractPresenter<DetailsActiv
 
     @Override
     public void homeButtonClicked() {
-        if(isViewBounded()){
+        if (isViewBounded()) {
             getView().performUpNavigation();
         }
     }

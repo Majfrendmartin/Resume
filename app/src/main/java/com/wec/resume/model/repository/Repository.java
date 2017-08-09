@@ -3,9 +3,9 @@ package com.wec.resume.model.repository;
 
 import android.support.annotation.NonNull;
 
-import com.wec.resume.model.Section;
 import com.wec.resume.model.Bio;
 import com.wec.resume.model.Resume;
+import com.wec.resume.model.Section;
 
 import java.util.Collection;
 

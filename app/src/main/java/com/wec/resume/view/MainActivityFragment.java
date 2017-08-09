@@ -138,9 +138,8 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
 
     private class SectionsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-        private PublishSubject<Pair<SectionType, Integer>> onClickSubject = PublishSubject.create();
-
         private final List<Section> items = new CopyOnWriteArrayList<>();
+        private PublishSubject<Pair<SectionType, Integer>> onClickSubject = PublishSubject.create();
 
         void updateItems(Collection<Section> items) {
             this.items.clear();

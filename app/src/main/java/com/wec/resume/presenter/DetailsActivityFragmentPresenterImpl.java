@@ -4,10 +4,16 @@ package com.wec.resume.presenter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
+import com.wec.resume.model.BaseItem;
+import com.wec.resume.model.ModalPair;
 import com.wec.resume.model.Section;
 import com.wec.resume.model.Section.SectionType;
 import com.wec.resume.model.usecase.FetchSectionByTypeUsecase;
 import com.wec.resume.view.DetailsActivityFragmentView;
+
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -17,6 +23,7 @@ public class DetailsActivityFragmentPresenterImpl extends AbstractFragmentPresen
     private final FetchSectionByTypeUsecase fetchSectionByTypeUsecase;
     private Disposable fetchByTypeDisposable;
     private SectionType type;
+    private List<ModalPair<BaseItem, Boolean>> itemSelection;
 
     public DetailsActivityFragmentPresenterImpl(FetchSectionByTypeUsecase fetchSectionByTypeUsecase) {
         this.fetchSectionByTypeUsecase = fetchSectionByTypeUsecase;
@@ -25,7 +32,14 @@ public class DetailsActivityFragmentPresenterImpl extends AbstractFragmentPresen
     @Override
     public void onItemClicked(int position) {
         if (isViewBounded()) {
-            getView().showItemDetails(position);
+            final boolean isPositionValid = position >= 0 && position < itemSelection.size();
+
+            if (!isPositionValid) {
+                return;
+            }
+            final ModalPair<BaseItem, Boolean> item = itemSelection.get(position);
+            item.second = !item.second;
+            getView().showItemDetails(position, item.second);
         }
     }
 
@@ -47,7 +61,12 @@ public class DetailsActivityFragmentPresenterImpl extends AbstractFragmentPresen
                 .map(Section::getItems)
                 .subscribe(items -> {
                     if (isViewBounded()) {
-                        getView().showList(items, type.ordinal());
+                        itemSelection =
+                                (List<ModalPair<BaseItem, Boolean>>) Stream.of(items)
+                                        .withoutNulls()
+                                        .map(o -> ModalPair.create(o, false))
+                                        .collect(Collectors.toList());
+                        getView().showList(itemSelection, type.ordinal());
                     }
                 });
 

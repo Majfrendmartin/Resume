@@ -16,7 +16,10 @@ import dagger.Component;
         modules = {PresenterModule.class, UsecaseModule.class})
 public interface ActivityComponent {
     void inject(MainActivity mainActivity);
+
     void inject(MainActivityFragment mainActivityFragment);
+
     void inject(DetailsActivity detailsActivity);
+
     void inject(DetailsActivityFragment detailsActivityFragment);
 }

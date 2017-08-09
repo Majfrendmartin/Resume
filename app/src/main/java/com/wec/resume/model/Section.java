@@ -13,13 +13,13 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public abstract class Section<T> {
 
-    public enum SectionType {
-        EDUCATION, JOBS, SKILLS
-    }
-
     private String title;
     private String cover;
     private List<T> items;
 
     public abstract SectionType getType();
+
+    public enum SectionType {
+        EDUCATION, JOBS, SKILLS
+    }
 }
