@@ -67,7 +67,7 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimary"
         android:elevation="21dp"
-        android:src="@mipmap/ic_launcher_round"
+        android:src="@drawable/ic_logo"
         tools:visibility="gone"/>
 
 </android.support.design.widget.CoordinatorLayout>
