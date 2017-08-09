@@ -31,11 +31,12 @@ public class NetworkModule {
 
     @Provides
     @PerApplication
-    Retrofit provideRetrofit() {
+    Retrofit provideRetrofit(Gson gson) {
         return new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create()).build();
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
     }
 
 }
