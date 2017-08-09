@@ -1,13 +1,14 @@
 package com.wec.resume.model;
 
+import static com.wec.resume.model.Section.SectionType.SKILLS;
+
 /**
  * Created by Majfrendmartin on 2017-08-05.
  */
 
-public class EducationItem extends Section<Education> {
-
+public class SkillsSection extends Section<Skill> {
     @Override
     public SectionType getType() {
-        return SectionType.EDUCATION;
+        return SKILLS;
     }
 }

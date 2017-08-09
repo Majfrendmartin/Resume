@@ -144,6 +144,7 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
 
         ViewHolder(View view) {
             super(view);
+            ButterKnife.bind(this, view);
         }
 
         void setupImage(String url) {
@@ -178,7 +179,6 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
 
         JobHolder(View view) {
             super(view);
-            ButterKnife.bind(this, view);
         }
     }
 
@@ -192,7 +192,6 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
 
         EducationHolder(View view) {
             super(view);
-            ButterKnife.bind(this, view);
         }
     }
 
@@ -206,7 +205,6 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
 
         SkillHolder(View view) {
             super(view);
-            ButterKnife.bind(this, view);
         }
     }
 
@@ -236,7 +234,7 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
         @Override
         public DetailsActivityFragment.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.section_item, parent, false);
+                    .inflate(R.layout.default_item, parent, false);
 
             if (type == EDUCATION.ordinal()) {
                 view = LayoutInflater.from(parent.getContext())
@@ -330,7 +328,7 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
             jobHolder.cvContent.setOnClickListener(v -> onClickSubject.onNext(position));
 
             jobHolder.layoutDetails.setVisibility(detailsVisibility ? VISIBLE : GONE);
-            
+
             jobHolder.setupImage(job.getCover());
         }
 

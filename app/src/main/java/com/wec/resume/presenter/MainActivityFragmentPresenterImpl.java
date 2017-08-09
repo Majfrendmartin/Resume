@@ -59,12 +59,11 @@ public class MainActivityFragmentPresenterImpl extends AbstractFragmentPresenter
         fetchSectionsDisposable = fetchSectionsUsecase.execute()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        baseResumeItems -> {
-                            if (isViewBounded()) {
-                                getView().showList(baseResumeItems);
-                            }
-                        }, Throwable::printStackTrace);
+                .subscribe(baseResumeItems -> {
+                    if (isViewBounded()) {
+                        getView().showList(baseResumeItems);
+                    }
+                }, Throwable::printStackTrace);
     }
 
     @Override

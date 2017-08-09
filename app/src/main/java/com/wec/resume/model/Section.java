@@ -20,6 +20,6 @@ public abstract class Section<T> {
     public abstract SectionType getType();
 
     public enum SectionType {
-        EDUCATION, JOBS, SKILLS
+        EDUCATION, JOBS, SKILLS, ABOUT
     }
 }
