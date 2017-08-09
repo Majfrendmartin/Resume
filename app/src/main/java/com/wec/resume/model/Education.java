@@ -19,6 +19,8 @@ public class Education extends BaseItem {
     @SerializedName("end_year")
     private int endYear;
 
+    private String cover;
+
     @NonNull
     @Override
     public String getTitle() {

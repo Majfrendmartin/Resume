@@ -294,6 +294,8 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
             educationHolder.tvPeriod.setText(getString(R.string.date_placecholder,
                     Integer.toString(education.getStartYear()),
                     Integer.toString(education.getEndYear())));
+
+            educationHolder.setupImage(education.getCover());
         }
 
         private void bindJobHolder(JobHolder jobHolder, Job job, Boolean detailsVisibility, final int position) {
@@ -328,6 +330,8 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
             jobHolder.cvContent.setOnClickListener(v -> onClickSubject.onNext(position));
 
             jobHolder.layoutDetails.setVisibility(detailsVisibility ? VISIBLE : GONE);
+            
+            jobHolder.setupImage(job.getCover());
         }
 
         private int calculateMonthsBetween(Date startDate, Date endDate) {

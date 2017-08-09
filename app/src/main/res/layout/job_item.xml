@@ -22,11 +22,12 @@
                 android:id="@+id/iv_item_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_margin="@dimen/margin_10"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher_round"/>
-
+                android:layout_alignBottom="@+id/ll_description"
+                android:layout_alignTop="@id/ll_description"
+                android:layout_marginStart="@dimen/margin_10"
+                android:foregroundGravity="center"
+                android:src="@mipmap/ic_launcher_round"
+                tools:src="@mipmap/ic_launcher_round"/>
 
             <LinearLayout
                 android:id="@+id/ll_years"
@@ -46,9 +47,8 @@
                     android:id="@+id/tv_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="0dp"
                     android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/time_text_size"
                     android:textStyle="bold"
                     tools:text="11"/>
 
@@ -56,7 +56,7 @@
                     android:id="@+id/tv_time_unit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/time_unit_text_size"
                     tools:text="years"/>
             </LinearLayout>
 
@@ -65,20 +65,19 @@
                 android:layout_height="match_parent"
                 android:layout_alignBottom="@id/ll_years"
                 android:layout_alignTop="@id/ll_years"
-                android:layout_toLeftOf="@id/ll_years"
+                android:layout_toStartOf="@id/ll_years"
                 android:background="@color/colorPrimaryDark"/>
 
             <LinearLayout
+                android:id="@id/ll_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/iv_item_image"
-                android:layout_alignTop="@id/iv_item_image"
-                android:layout_marginLeft="@dimen/margin_10"
-                android:layout_marginRight="@dimen/margin_10"
-                android:layout_toLeftOf="@id/ll_years"
-                android:layout_toRightOf="@id/iv_item_image"
+                android:layout_margin="@dimen/margin_10"
+                android:layout_toEndOf="@id/iv_item_image"
+                android:layout_toStartOf="@id/ll_years"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/margin_10">
 
                 <TextView
                     android:id="@+id/tv_title"
@@ -117,7 +116,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/margin_10"
+                        android:layout_marginEnd="@dimen/margin_10"
                         android:text="@string/period"/>
 
                     <TextView

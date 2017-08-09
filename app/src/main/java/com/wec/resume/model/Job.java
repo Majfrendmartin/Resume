@@ -31,6 +31,8 @@ public class Job extends BaseItem {
     @SerializedName("end_date")
     private Date endDate;
 
+    private String cover;
+
     private List<String> responsibilities;
 
     @NonNull
