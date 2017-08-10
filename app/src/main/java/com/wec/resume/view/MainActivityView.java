@@ -11,11 +11,9 @@ public interface MainActivityView extends View {
 
     void showCouldNoteLoadDataErrorMessage();
 
-    void hideSplashScreen();
-
     void showSplashScreen(boolean showSplashScreen);
 
-    void showAndEnableSocialButtons();
+    void showAndEnableSocialButtons(boolean areAvailable);
 
     void enableButtonByType(Social.Type type);
 

@@ -67,9 +67,6 @@ public class MainActivityPresenterImpl extends AbstractPresenter<MainActivityVie
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resume -> {
-                    if (isViewBounded()) {
-                        getView().hideSplashScreen();
-                    }
                     handleFetchBio();
                 }, throwable -> {
                     if (isViewBounded()) {
@@ -104,12 +101,19 @@ public class MainActivityPresenterImpl extends AbstractPresenter<MainActivityVie
                         final Social[] socials = bio.getSocials();
 
                         if (socials != null && socials.length > 0) {
-                            view.showAndEnableSocialButtons();
+                            view.showAndEnableSocialButtons(true);
                             Stream.of(socials)
                                     .forEach(social -> view.enableButtonByType(social.getType()));
                         }
                     }
                 });
+    }
+
+    @Override
+    public void bioImageReady() {
+        if (isViewBounded()) {
+            getView().showSplashScreen(false);
+        }
     }
 
     private void cleanUpFetchBioDisposable() {
@@ -143,7 +147,12 @@ public class MainActivityPresenterImpl extends AbstractPresenter<MainActivityVie
         Stream.of(bio.getSocials())
                 .filter(value -> value.getType() == type)
                 .findFirst()
-                .ifPresent(social -> getView().navigateToURL(social.getUrl()));
+                .ifPresent(social -> {
+                    if (!isViewBounded()) {
+                        return;
+                    }
+                    getView().navigateToURL(social.getUrl());
+                });
     }
 
     public void setBio(Bio bio) {

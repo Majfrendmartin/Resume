@@ -8,14 +8,19 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.transition.TransitionManager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.Toolbar;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.wec.resume.R;
 import com.wec.resume.injection.component.DaggerActivityComponent;
 import com.wec.resume.injection.module.PresenterModule;
@@ -66,6 +71,9 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
     @BindView(R.id.app_bar_layout)
     AppBarLayout appBarLayout;
 
+    @BindView(R.id.cl_container)
+    ViewGroup clContainer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +108,18 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
         Glide.with(this)
                 .load(avatar)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        presenter.bioImageReady();
+                        return false;
+                    }
+                })
                 .into(ivToolbarParallaxBackground);
     }
 
@@ -109,19 +129,15 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
     }
 
     @Override
-    public void hideSplashScreen() {
-        ivSplashScreen.setVisibility(GONE);
-    }
-
-    @Override
     public void showSplashScreen(boolean showSplashScreen) {
+        TransitionManager.beginDelayedTransition(clContainer);
         ivSplashScreen.setVisibility(showSplashScreen ? VISIBLE : GONE);
     }
 
     @Override
-    public void showAndEnableSocialButtons() {
-        fabContainer.setVisibility(VISIBLE);
-        fab.setClickable(true);
+    public void showAndEnableSocialButtons(boolean areAvailable) {
+        fabContainer.setVisibility(areAvailable ? VISIBLE : GONE);
+        fab.setClickable(areAvailable);
     }
 
     @Override

@@ -18,12 +18,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:padding="40dp"
+                android:background="@color/colorPrimary"/>
+
             <ImageView
                 android:id="@+id/iv_item_image"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher_round"/>
+                android:scaleType="centerCrop"/>
 
             <TextView
                 android:id="@+id/tv_title"

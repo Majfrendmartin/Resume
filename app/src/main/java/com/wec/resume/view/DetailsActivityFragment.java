@@ -61,19 +61,19 @@ import static com.wec.resume.model.Section.SectionType.SKILLS;
 public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsActivityFragmentPresenter>
         implements DetailsActivityFragmentView {
 
+    private static final int PROGRESS_BAR_LEVEL_MULTIPLIER = 20;
     private static final float MONTHS_COUNT = 12f;
-    private final static SimpleDateFormat MONTH_YEAR_DATE_FORMATTER = new SimpleDateFormat("MMMM yyyy", Locale.UK);
-    private final static DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.#");
-    public static final int PROGRESS_BAR_LEVEL_MULTIPLIER = 20;
-
-    {
-        DECIMAL_FORMAT.setRoundingMode(RoundingMode.CEILING);
-    }
+    private static final SimpleDateFormat MONTH_YEAR_DATE_FORMATTER = new SimpleDateFormat("MMMM yyyy", Locale.UK);
+    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.#");
 
     @BindView(R.id.rv_items)
     RecyclerView rvItems;
 
     private ItemsAdapter adapter;
+
+    {
+        DECIMAL_FORMAT.setRoundingMode(RoundingMode.CEILING);
+    }
 
     public DetailsActivityFragment() {
     }
@@ -303,7 +303,7 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
             final String speciality = education.getSpeciality();
             if (isEmpty(speciality)) {
                 educationHolder.llSpeciality.setVisibility(GONE);
-            }else {
+            } else {
                 educationHolder.llSpeciality.setVisibility(VISIBLE);
                 educationHolder.tvSpeciality.setText(speciality);
             }
