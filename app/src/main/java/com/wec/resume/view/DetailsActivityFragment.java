@@ -175,6 +175,9 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
         @BindView(R.id.tv_responsibilities)
         TextView tvResponsibilities;
 
+        @BindView(R.id.tv_dots)
+        TextView tvDots;
+
         @BindView(R.id.layout_details)
         ViewGroup layoutDetails;
 
@@ -229,9 +232,9 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
 
         void changeItemDetailsVisibility(int position, boolean visibility) {
             final JobHolder jobHolder = (JobHolder) rvItems.findViewHolderForAdapterPosition(position);
-            final ViewGroup layoutDetails = jobHolder.layoutDetails;
             TransitionManager.beginDelayedTransition(rvItems);
-            layoutDetails.setVisibility(visibility ? VISIBLE : GONE);
+            jobHolder.layoutDetails.setVisibility(visibility ? VISIBLE : GONE);
+            jobHolder.tvDots.setVisibility(!visibility ? VISIBLE : GONE);
         }
 
         Observable<Integer> getClickedItem() {
@@ -343,6 +346,7 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
             jobHolder.cvContent.setOnClickListener(v -> onClickSubject.onNext(position));
 
             jobHolder.layoutDetails.setVisibility(detailsVisibility ? VISIBLE : GONE);
+            jobHolder.tvDots.setVisibility(!detailsVisibility ? VISIBLE : GONE);
 
             jobHolder.setupImage(job.getCover());
         }
