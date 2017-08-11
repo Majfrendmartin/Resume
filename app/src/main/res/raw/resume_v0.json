@@ -1,8 +1,8 @@
 {
   "version": "0",
   "bio": {
-    "name": "John",
-    "surname": "Doe",
+    "name": "Paweł",
+    "surname": "Raciborski",
     "avatar": "http://dodskypict.com/D/Deadpool-Logo-Wallpaper-On-Wallpaper-Hd-1-640x480.jpg",
     "socials": [
       {
@@ -26,7 +26,7 @@
         "speciality": "Graphic and multimedia systems",
         "start_year": 2013,
         "end_year": 2014,
-        "cover": "https://cdn1.iconfinder.com/data/icons/ios-7-style-metro-ui-icons/512/MetroUI_OS_Android.png"
+        "cover": "https://majfrendmartin.github.io/resume/pb.png"
       },
       {
         "school": "Bialystok University of Technology (Politechnika Białostocka)",
@@ -34,7 +34,7 @@
         "degree": "Bachelor of Science",
         "start_year": 2009,
         "end_year": 2013,
-        "cover": "https://cdn1.iconfinder.com/data/icons/ios-7-style-metro-ui-icons/512/MetroUI_OS_Android.png"
+        "cover": "https://majfrendmartin.github.io/resume/pb.png"
       }
     ]
   },
@@ -43,7 +43,7 @@
     "cover": "http://tremendouswallpapers.com/wp-content/uploads/2015/07/Fresh-atmosphere-computers-desktop-wallpaper-640x480.jpg",
     "items": [
       {
-        "company": "GOOGLE",
+        "company": "Grape Up Sp. z o.o.",
         "position": "Software Developer",
         "current": true,
         "start_date": "01-05-2015",
@@ -51,18 +51,49 @@
           "IM & VoIP system development (Android client)",
           "Incorporating cloud systems development technologies"
         ],
-        "cover": "https://media.licdn.com/mpr/mpr/shrink_200_200/AAEAAQAAAAAAAALTAAAAJGY1NGY1N2ZhLTNmZmUtNGRmZi1iMDgxLTJjZjdkNjNkYmZlOQ.png"
+        "cover": "https://majfrendmartin.github.io/resume/gu.png"
       },
       {
-        "company": "JetBrains",
+        "company": "Avaya Inc.",
+        "position": "Adnroid Software Developer",
+        "start_date": "01-05-2015",
+        "end_date": "01-05-2017",
+        "responsibilities": [
+          "IM & VoIP system development (Android client)"
+        ],
+        "cover": "https://majfrendmartin.github.io/resume/av.png"
+      },
+      {
+        "company": "Omega Code Sp. z o.o.",
         "position": "Mobile Software Developer",
         "start_date": "01-06-2014",
         "end_date": "01-05-2015",
         "responsibilities": [
-          "Working on Android client for system of worldwide hospitality company",
+          "Working on Android client for financial system of worldwide loan company",
           "Android/iOS development for startups"
         ],
-        "cover": "https://media.licdn.com/mpr/mpr/shrink_200_200/AAEAAQAAAAAAAAYjAAAAJDUwZjc3ODdjLTE5NzItNDM4ZC1hOGY4LWFjNjA4NzdhMjI0Mw.png"
+        "cover": "https://majfrendmartin.github.io/resume/oc.png"
+      },
+      {
+        "company": "QBurst Poland Sp. z o.o.",
+        "position": "Mobile Software Developer",
+        "start_date": "01-04-2013",
+        "end_date": "01-06-2014",
+        "responsibilities": [
+          "Developing mobile clients for medical facilities and pharmacies (Android, iOS, Windows 8.1 (WinRT))",
+          "Android/iOS development for startups"
+        ],
+        "cover": "https://majfrendmartin.github.io/resume/qb.png"
+      },
+      {
+        "company": "Devcore.NET s.j.",
+        "position": "Junior Software Developer",
+        "start_date": "01-05-2012",
+        "end_date": "01-03-2013",
+        "responsibilities": [
+          "Windows Phone and Windows 8 (WinRT) development"
+        ],
+        "cover": "https://majfrendmartin.github.io/resume/dc.png"
       }
     ]
   },
@@ -72,17 +103,50 @@
     "items": [
       {
         "name": "Android",
-        "description": "Android bla bla bla",
+        "description": "Android development with Java. Knowlage of both Eclispe and Intellij Idea (Android Studio) IDEs. Familiarity with popular libraries. Gradle knowalge.",
         "level": 5
       },
       {
         "name": "iOS",
-        "description": "iOS bla bla bla",
+        "description": "iOS development with Objective-C. Knowlage of both Xcode and AppCode IDEs. Familiarity with popular libraries.",
+        "level": 4
+      },
+      {
+        "name": "Cloud development",
+        "description": "Familiar with Cloud Foundry PaaS (Pivotal Cloud Foundry Developer 1.7 Certificate). Spring Boot web application development.",
+        "level": "4"
+      },
+      {
+        "name": "Java",
+        "level": 5
+      },
+      {
+        "name": "UX designing",
         "level": 3
       },
       {
-        "name": "CLOUD",
-        "description": "CLOUD bla bla bla"
+        "name": "Programing languages",
+        "description": "C#, C/C++, Python"
+      },
+      {
+        "name": ".NET framework",
+        "description": "WPF, Silverlight, Windows Phone, WinRT"
+      },
+      {
+        "name": "Version control systems",
+        "description": "GIT, SVN, TFS"
+      },
+      {
+        "name": "Issue trackers",
+        "description": "JIRA, Redmine, Pivotal Tracker"
+      },
+      {
+        "name": "CI systems",
+        "description": "Bamboo, Jenkins, Concourse"
+      },
+      {
+        "name": "Other",
+        "description": "Basic knowledge of HTML, JavaScript, SQL, Assembler"
       }
     ]
   },
@@ -91,7 +155,10 @@
     "cover": "http://wfiles.brothersoft.com/e6/android_189017-640x480.jpg",
     "items": [
       {
-        "note": "Lorem ipsum https://github.com/Majfrendmartin/resume dolor sit amet, consectetur adipiscing elit. In at elit et erat bibendum porta eu ac orci. Cras malesuada ornare sapien a gravida. Nam id ex congue, efficitur est at, rutrum justo. Ut leo risus, interdum in fermentum eget, interdum volutpat dui. Donec malesuada cursus odio non ultricies. Sed egestas dapibus diam gravida vestibulum. Aenean at felis quis risus convallis pellentesque consectetur ut augue. Praesent accumsan quis nulla ut sodales. Etiam ipsum nisl, mattis quis pellentesque eget, dictum ut orci. Suspendisse potenti."
+        "note": "I'm a mobile software developer for a few yeaers now. I've started with Windows Phone/WinRT, but later turned to iOS and Android (<3). I've been working on many differend projects, from social standups to medical and financial systems for international companies. I've been working with teams that came in all shapes and sizes (form being single mobile dev in a project to being part of a huge teams distributed in multiple countries around the world). Current I'm mostly into Android development and would like to follow this path in near future.\n\nYou can find me on:\n- LinkedIn: https://www.linkedin.com/in/pawe%C5%82-raciborski-a0a19a46\n- GitHub: https://github.com/Majfrendmartin"
+      },
+      {
+        "note": "Credits:\n\nThis is an open source project and code can be found here: https://github.com/Majfrendmartin/resume\n\nI would also like to thank authors and contributors of libraties I'm using in this app:\n- Butter Knife: http://jakewharton.github.io/butterknife\n- Retrofit: http://square.github.io/retrofit\n- Dagger: https://google.github.io/dagger\n- RxJava: https://github.com/ReactiveX/RxJava\n- Glide: https://github.com/bumptech/glide\n- Gson: https://github.com/google/gson\n- EventBus: http://greenrobot.org/eventbus\n- Lightweight-Stream-API: https://github.com/aNNiMON/Lightweight-Stream-API\n- Lombok: https://projectlombok.org"
       }
     ]
   }
