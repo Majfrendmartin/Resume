@@ -8,9 +8,9 @@ import retrofit2.http.Path;
 
 public interface Api {
 
-    @GET("/v")
+    @GET("/resume/v")
     Observable<Integer> getCurrentResumeVersion();
 
-    @GET("/resume_v{version}.json")
+    @GET("/resume/resume_v{version}.json")
     Observable<Resume> getResume(@Path("version") int version);
 }
