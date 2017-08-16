@@ -11,7 +11,7 @@
       },
       {
         "type": "linkedin",
-        "url": "https://www.linkedin.com/in/pawe%C5%82-raciborski-a0a19a46/"
+        "url": "https://www.linkedin.com/in/pawelraciborski"
       }
     ]
   },
@@ -155,7 +155,7 @@
     "cover": "http://wfiles.brothersoft.com/e6/android_189017-640x480.jpg",
     "items": [
       {
-        "note": "I'm a mobile software developer for a few years now. I've started with Windows Phone/WinRT, but later turned to iOS and Android (<3). I've been working on many different projects, from social startups to medical and financial systems for international companies. I've been working with teams that came in all shapes and sizes (form being single mobile dev in a project to being part of a huge teams distributed in multiple countries around the world). Current I'm mostly into Android development and would like to follow this path in near future.\n\nYou can find me on:\n- LinkedIn: https://www.linkedin.com/in/pawe%C5%82-raciborski-a0a19a46\n- GitHub: https://github.com/Majfrendmartin"
+        "note": "I'm a mobile software developer for a few years now. I've started with Windows Phone/WinRT, but later turned to iOS and Android. I've been working on many different projects, from social startups to medical and financial systems for international companies and teams that came in all shapes and sizes (form being single mobile dev in a project to being part of a huge teams distributed in multiple countries around the world). Currently I'm into Android development and I would like to follow this path in near future.\n\nYou can find me on:\n- LinkedIn: https://www.linkedin.com/in/pawelraciborski\n- GitHub: https://github.com/Majfrendmartin\n\nInterests: IT news, music, sci-fi and fantasy books, history, photography, computer games."
       },
       {
         "note": "Credits:\n\nThis is an open source project and the code can be found here: https://github.com/Majfrendmartin/resume\n\nI would also like to thank authors and contributors of libraries I'm using in this app:\n- Butter Knife: http://jakewharton.github.io/butterknife\n- Retrofit: http://square.github.io/retrofit\n- Dagger: https://google.github.io/dagger\n- RxJava: https://github.com/ReactiveX/RxJava\n- Glide: https://github.com/bumptech/glide\n- Gson: https://github.com/google/gson\n- EventBus: http://greenrobot.org/eventbus\n- Lightweight-Stream-API: https://github.com/aNNiMON/Lightweight-Stream-API\n- Lombok: https://projectlombok.org"
