@@ -5,10 +5,11 @@
     <string name="transition_cover">section_cover_transition</string>
     <string name="period">Period:</string>
     <string name="responsibilities">Responsibilities:</string>
-    <string name="date_placecholder_now" formatted="false">%s - now</string>
-    <string name="date_placecholder" formatted="false">%s - %s</string>
+    <string name="date_placeholder_now" formatted="false">%s - now</string>
+    <string name="date_placeholder" formatted="false">%s - %s</string>
     <string name="list_placeholder" formatted="false">- %s</string>
     <string name="school_placeholder" formatted="false">%s, %s</string>
     <string name="lorem_ipsum">Lorem ipsum https://github.com/Majfrendmartin/resume dolor sit amet, consectetur adipiscing elit. In at elit et erat bibendum porta eu ac orci. Cras malesuada ornare sapien a gravida. Nam id ex congue, efficitur est at, rutrum justo. Ut leo risus, interdum in fermentum eget, interdum volutpat dui. Donec malesuada cursus odio non ultricies. Sed egestas dapibus diam gravida vestibulum. Aenean at felis quis risus convallis pellentesque consectetur ut augue. Praesent accumsan quis nulla ut sodales. Etiam ipsum nisl, mattis quis pellentesque eget, dictum ut orci. Suspendisse potenti.</string>
     <string name="speciality">Speciality:</string>
+    <string name="no_internet_info">No internet connection. There is a chance that app operates on outdated or incomplete data.</string>
 </resources>

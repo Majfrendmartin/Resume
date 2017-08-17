@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.wec.resume.injection.scope.PerApplication;
+import com.wec.resume.model.repository.NetworkConnectionInfo;
+import com.wec.resume.model.repository.NetworkConnectionInfoImpl;
 import com.wec.resume.model.repository.Repository;
 import com.wec.resume.model.repository.RepositoryImpl;
 
@@ -39,4 +41,9 @@ public class NetworkModule {
                 .build();
     }
 
+    @Provides
+    @PerApplication
+    NetworkConnectionInfo provideNetworkConnectionInfo(Application application) {
+        return new NetworkConnectionInfoImpl(application);
+    }
 }

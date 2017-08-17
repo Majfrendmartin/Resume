@@ -299,7 +299,7 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
             educationHolder.tvSchool.setText(getString(R.string.school_placeholder,
                     education.getSchool(), education.getFaculty()));
 
-            educationHolder.tvPeriod.setText(getString(R.string.date_placecholder,
+            educationHolder.tvPeriod.setText(getString(R.string.date_placeholder,
                     Integer.toString(education.getStartYear()),
                     Integer.toString(education.getEndYear())));
 
@@ -321,8 +321,8 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
             final Date endDate = job.getEndDate();
 
             final String dateString = job.isCurrent() ?
-                    getString(R.string.date_placecholder_now, MONTH_YEAR_DATE_FORMATTER.format(startDate)) :
-                    getString(R.string.date_placecholder, MONTH_YEAR_DATE_FORMATTER.format(startDate),
+                    getString(R.string.date_placeholder_now, MONTH_YEAR_DATE_FORMATTER.format(startDate)) :
+                    getString(R.string.date_placeholder, MONTH_YEAR_DATE_FORMATTER.format(startDate),
                             MONTH_YEAR_DATE_FORMATTER.format(endDate));
 
             jobHolder.tvPeriod.setText(dateString);

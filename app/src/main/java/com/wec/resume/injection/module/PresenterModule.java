@@ -2,6 +2,7 @@ package com.wec.resume.injection.module;
 
 
 import com.wec.resume.injection.scope.PerActivity;
+import com.wec.resume.model.repository.NetworkConnectionInfo;
 import com.wec.resume.model.usecase.FetchBioUsecase;
 import com.wec.resume.model.usecase.FetchSectionByTypeUsecase;
 import com.wec.resume.model.usecase.FetchSectionsUsecase;
@@ -33,8 +34,8 @@ public class PresenterModule {
     @Provides
     @PerActivity
     MainActivityFragmentPresenter provideMainActivityFragmentPresenter(
-            FetchSectionsUsecase fetchSectionsUsecase, EventBus eventBus) {
-        return new MainActivityFragmentPresenterImpl(fetchSectionsUsecase, eventBus);
+            FetchSectionsUsecase fetchSectionsUsecase, EventBus eventBus, NetworkConnectionInfo networkConnectionInfo) {
+        return new MainActivityFragmentPresenterImpl(fetchSectionsUsecase, eventBus, networkConnectionInfo);
     }
 
     @Provides

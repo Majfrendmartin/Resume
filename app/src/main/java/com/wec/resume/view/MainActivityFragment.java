@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -86,17 +87,21 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
     public void showList(@NonNull Collection<Section> sections) {
         sectionsAdapter.updateItems(sections);
     }
 
     @Override
-    public void navigateToDetails(@NonNull SectionType type, int position) {
+    public void navigateToDetails(@NonNull SectionType type, int position, boolean useTransition) {
+
+        final Intent intent = new Intent(getActivity(), DetailsActivity.class);
+        intent.putExtra(KEY_EXTRA_SELECTED_TYPE, type);
+
+        if (!useTransition) {
+            startActivity(intent);
+            return;
+        }
+
         final ViewHolder viewHolder = (ViewHolder) rvSections.findViewHolderForAdapterPosition(position);
         if (viewHolder == null) {
             return;
@@ -106,10 +111,13 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
                 ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
                         viewHolder.ivItemImage, getString(R.string.transition_cover));
 
-        final Intent intent = new Intent(getActivity(), DetailsActivity.class);
-        intent.putExtra(KEY_EXTRA_SELECTED_TYPE, type);
 
         ActivityCompat.startActivity(getActivity(), intent, activityOptionsCompat.toBundle());
+    }
+
+    @Override
+    public void showNoInternetConnectionInfo() {
+        Toast.makeText(getContext(), R.string.no_internet_info, Toast.LENGTH_LONG).show();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
