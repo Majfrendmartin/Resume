@@ -3,6 +3,7 @@ package com.wec.resume.view;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.transition.TransitionManager;
@@ -148,12 +149,9 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
             ButterKnife.bind(this, view);
         }
 
-        void setupImage(String url) {
+        void setupImage(String url, @DrawableRes int placeholderRes) {
             if (ivItemImage != null) {
-                Glide.with(getActivity())
-                        .load(url)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .into(ivItemImage);
+                ViewUtils.loadImageToView(getContext(), ivItemImage, url, placeholderRes, null);
             }
         }
     }
@@ -311,7 +309,7 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
                 educationHolder.tvSpeciality.setText(speciality);
             }
 
-            educationHolder.setupImage(education.getCover());
+            educationHolder.setupImage(education.getCover(), R.mipmap.ic_launcher);
         }
 
         private void bindJobHolder(JobHolder jobHolder, Job job, Boolean detailsVisibility, final int position) {
@@ -348,7 +346,7 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
             jobHolder.layoutDetails.setVisibility(detailsVisibility ? VISIBLE : GONE);
             jobHolder.tvDots.setVisibility(!detailsVisibility ? VISIBLE : GONE);
 
-            jobHolder.setupImage(job.getCover());
+            jobHolder.setupImage(job.getCover(), R.mipmap.ic_launcher_round);
         }
 
         private int calculateMonthsBetween(Date startDate, Date endDate) {

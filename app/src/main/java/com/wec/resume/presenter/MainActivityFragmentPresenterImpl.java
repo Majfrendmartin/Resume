@@ -78,7 +78,7 @@ public class MainActivityFragmentPresenterImpl extends AbstractFragmentPresenter
     @Override
     public void onSectionClicked(@NonNull SectionType baseResumeItem, int position) {
         if (isViewBounded()) {
-            getView().navigateToDetails(baseResumeItem, position, networkConnectionInfo.hasInternetConnection());
+            getView().navigateToDetails(baseResumeItem, position);
         }
     }
 }

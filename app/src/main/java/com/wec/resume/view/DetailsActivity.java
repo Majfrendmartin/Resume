@@ -57,24 +57,26 @@ public class DetailsActivity extends AbstractPresenterActivity<DetailsActivityPr
     }
 
     @Override
-    public void showSectionDetails(String title, String cover) {
+    public void showSectionDetails(String title, String cover, SectionType sectionType) {
         collapsingToolbarLayout.setTitle(title);
-        Glide.with(getApplicationContext())
-                .load(cover)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .listener(new RequestListener<String, GlideDrawable>() {
+        ViewUtils.loadImageToView(this, ivToolbarParallaxBackground, cover,
+                ViewUtils.getDrawableForSectionType(sectionType), new RequestListener<String, GlideDrawable>() {
                     @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target,
+                                               boolean isFirstResource) {
+                        supportStartPostponedEnterTransition();
                         return false;
                     }
 
                     @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                    public boolean onResourceReady(GlideDrawable resource, String model,
+                                                   Target<GlideDrawable> target,
+                                                   boolean isFromMemoryCache,
+                                                   boolean isFirstResource) {
                         supportStartPostponedEnterTransition();
                         return false;
                     }
-                })
-                .into(ivToolbarParallaxBackground);
+                });
     }
 
     @Override
