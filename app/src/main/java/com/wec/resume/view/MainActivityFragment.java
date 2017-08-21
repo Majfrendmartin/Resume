@@ -2,6 +2,7 @@ package com.wec.resume.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -17,8 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.wec.resume.R;
 import com.wec.resume.injection.component.DaggerActivityComponent;
 import com.wec.resume.injection.module.PresenterModule;
@@ -92,15 +91,10 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
     }
 
     @Override
-    public void navigateToDetails(@NonNull SectionType type, int position, boolean useTransition) {
+    public void navigateToDetails(@NonNull SectionType type, int position) {
 
         final Intent intent = new Intent(getActivity(), DetailsActivity.class);
         intent.putExtra(KEY_EXTRA_SELECTED_TYPE, type);
-
-        if (!useTransition) {
-            startActivity(intent);
-            return;
-        }
 
         final ViewHolder viewHolder = (ViewHolder) rvSections.findViewHolderForAdapterPosition(position);
         if (viewHolder == null) {
@@ -136,11 +130,8 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
             ButterKnife.bind(this, view);
         }
 
-        void setupImage(String url) {
-            Glide.with(getActivity())
-                    .load(url)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(ivItemImage);
+        void setupImage(String url, @DrawableRes int placeholderRes) {
+            ViewUtils.loadImageToView(getContext(), ivItemImage, url, placeholderRes, null);
         }
     }
 
@@ -170,7 +161,8 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
         public void onBindViewHolder(ViewHolder holder, final int position) {
             final Section resumeItem = items.get(position);
             holder.tvTitle.setText(resumeItem.getTitle());
-            holder.setupImage(resumeItem.getCover());
+            holder.setupImage(resumeItem.getCover(),
+                    ViewUtils.getDrawableForSectionType(resumeItem.getType()));
             holder.cvContent.setOnClickListener(
                     v -> onClickSubject.onNext(Pair.create(resumeItem.getType(), position)));
         }
