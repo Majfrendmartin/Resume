@@ -7,4 +7,5 @@
     <dimen name="parallax_app_bar_height_short">204dp</dimen>
     <dimen name="time_unit_text_size">10sp</dimen>
     <dimen name="time_text_size">20sp</dimen>
+    <dimen name="image_item_wh">60dp</dimen>
 </resources>

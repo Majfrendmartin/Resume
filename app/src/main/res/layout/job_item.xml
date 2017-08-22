@@ -20,8 +20,8 @@
 
             <ImageView
                 android:id="@+id/iv_item_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/image_item_wh"
+                android:layout_height="@dimen/image_item_wh"
                 android:layout_alignBottom="@+id/ll_description"
                 android:layout_alignTop="@id/ll_description"
                 android:layout_marginStart="@dimen/margin_10"
