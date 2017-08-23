@@ -37,7 +37,7 @@ public class DetailsActivityPresenterImpl extends AbstractPresenter<DetailsActiv
         fetchSectionByTypeUsecase.execute()
                 .subscribe(section -> {
                     if (isViewBounded()) {
-                        getView().showSectionDetails(section.getTitle(), section.getCover(), section.getType());
+                        getView().showSectionDetails(section.getCover(), section.getType());
                     }
                 });
     }

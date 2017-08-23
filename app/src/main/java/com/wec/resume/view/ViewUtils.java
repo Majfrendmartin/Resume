@@ -2,9 +2,12 @@ package com.wec.resume.view;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.graphics.Palette;
+import android.support.v7.graphics.Palette.PaletteAsyncListener;
 import android.widget.ImageView;
 
 import com.annimon.stream.Optional;
@@ -46,6 +49,41 @@ final class ViewUtils {
                         return false;
                     }
                 })
+                .into(imageView);
+    }
+
+    static void loadImageToView(@NonNull Context context, @NonNull ImageView imageView,
+                                @NonNull String url, @DrawableRes int drawableRes,
+                                @Nullable RequestListener<String, Bitmap> requestListener,
+                                @Nullable PaletteAsyncListener paletteAsyncListener) {
+        Glide.with(context)
+                .load(url)
+                .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .listener(
+                        new RequestListener<String, Bitmap>() {
+                            @Override
+                            public boolean onException(Exception e, String model, Target<Bitmap> target,
+                                                       boolean isFirstResource) {
+                                imageView.setImageResource(drawableRes);
+                                Optional.ofNullable(requestListener)
+                                        .ifPresent(rl -> rl.onException(e, model, target, isFirstResource));
+                                return true;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target,
+                                                           boolean isFromMemoryCache, boolean isFirstResource) {
+                                Optional.ofNullable(requestListener)
+                                        .ifPresent(rl -> rl.onResourceReady(
+                                                resource, model, target, isFromMemoryCache, isFirstResource));
+                                Optional.ofNullable(paletteAsyncListener)
+                                        .ifPresent(pl -> Palette.from(resource).generate(pl));
+
+                                return false;
+                            }
+                        }
+                )
                 .into(imageView);
     }
 

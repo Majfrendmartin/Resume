@@ -1,14 +1,16 @@
 package com.wec.resume.view;
 
+import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.wec.resume.R;
@@ -43,6 +45,7 @@ public class DetailsActivity extends AbstractPresenterActivity<DetailsActivityPr
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         DaggerActivityComponent.builder()
                 .applicationComponent(getApplicationComponent())
@@ -57,24 +60,34 @@ public class DetailsActivity extends AbstractPresenterActivity<DetailsActivityPr
     }
 
     @Override
-    public void showSectionDetails(String title, String cover, SectionType sectionType) {
-        collapsingToolbarLayout.setTitle(title);
+    public void showSectionDetails(String cover, SectionType sectionType) {
         ViewUtils.loadImageToView(this, ivToolbarParallaxBackground, cover,
-                ViewUtils.getDrawableForSectionType(sectionType), new RequestListener<String, GlideDrawable>() {
+                ViewUtils.getDrawableForSectionType(sectionType), new RequestListener<String, Bitmap>() {
                     @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target,
+                    public boolean onException(Exception e, String model, Target<Bitmap> target,
                                                boolean isFirstResource) {
                         supportStartPostponedEnterTransition();
                         return false;
                     }
 
                     @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model,
-                                                   Target<GlideDrawable> target,
-                                                   boolean isFromMemoryCache,
-                                                   boolean isFirstResource) {
+                    public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
                         supportStartPostponedEnterTransition();
                         return false;
+                    }
+                }, palette -> {
+                    final Palette.Swatch swatch = palette.getDominantSwatch();
+                    if (swatch == null) {
+                        return;
+                    }
+
+                    @SuppressLint("PrivateResource")
+                    final Drawable backArrow = getResources().getDrawable(R.drawable.abc_ic_ab_back_material, getTheme());
+                    backArrow.setColorFilter(swatch.getTitleTextColor(), PorterDuff.Mode.SRC_ATOP);
+                    try {
+                        getSupportActionBar().setHomeAsUpIndicator(backArrow);
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
                     }
                 });
     }
