@@ -33,7 +33,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:layout_marginRight="@dimen/margin_10"
-                android:layout_toRightOf="@id/iv_item_image"
+                android:layout_toEndOf="@id/iv_item_image"
                 android:orientation="vertical">
 
                 <TextView

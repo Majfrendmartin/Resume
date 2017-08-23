@@ -8,7 +8,6 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.wec.resume.model.BaseItem;
 import com.wec.resume.model.ModalPair;
-import com.wec.resume.model.Section;
 import com.wec.resume.model.Section.SectionType;
 import com.wec.resume.model.usecase.FetchSectionByTypeUsecase;
 import com.wec.resume.view.DetailsActivityFragmentView;
@@ -58,15 +57,14 @@ public class DetailsActivityFragmentPresenterImpl extends AbstractFragmentPresen
         fetchByTypeDisposable = fetchSectionByTypeUsecase.execute()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(Section::getItems)
-                .subscribe(items -> {
+                .subscribe(section -> {
                     if (isViewBounded()) {
                         itemSelection =
-                                (List<ModalPair<BaseItem, Boolean>>) Stream.of(items)
+                                (List<ModalPair<BaseItem, Boolean>>) Stream.of(section.getItems())
                                         .withoutNulls()
                                         .map(o -> ModalPair.create(o, false))
                                         .collect(Collectors.toList());
-                        getView().showList(itemSelection, type.ordinal());
+                        getView().showList(section.getTitle(), itemSelection, type.ordinal());
                     }
                 });
 

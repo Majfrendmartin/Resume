@@ -7,4 +7,8 @@ public abstract class BaseItem {
 
     @NonNull
     public abstract String getTitle();
+
+    public boolean isHeader() {
+        return false;
+    }
 }

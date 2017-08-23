@@ -20,8 +20,6 @@ import android.widget.TextView;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.wec.resume.R;
 import com.wec.resume.injection.component.DaggerActivityComponent;
 import com.wec.resume.injection.module.PresenterModule;
@@ -123,8 +121,8 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
 
 
     @Override
-    public void showList(@NonNull List<ModalPair<BaseItem, Boolean>> items, int type) {
-        adapter.updateItems(items, type);
+    public void showList(@NonNull String title, @NonNull List<ModalPair<BaseItem, Boolean>> items, int type) {
+        adapter.updateItems(title, items, type);
     }
 
     @Override
@@ -141,6 +139,7 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
         @BindView(R.id.iv_item_image)
         ImageView ivItemImage;
 
+        @Nullable
         @BindView(R.id.cv_content)
         CardView cvContent;
 
@@ -217,12 +216,25 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
     }
 
     private class ItemsAdapter extends RecyclerView.Adapter<DetailsActivityFragment.ViewHolder> {
+        private static final int HEADER = -1;
         private final List<ModalPair<BaseItem, Boolean>> items = new CopyOnWriteArrayList<>();
         private PublishSubject<Integer> onClickSubject = PublishSubject.create();
         private int type;
 
-        void updateItems(List<ModalPair<BaseItem, Boolean>> items, int type) {
+        void updateItems(String title, List<ModalPair<BaseItem, Boolean>> items, int type) {
             this.items.clear();
+            this.items.add(new ModalPair<>(new BaseItem() {
+                @NonNull
+                @Override
+                public String getTitle() {
+                    return title;
+                }
+
+                @Override
+                public boolean isHeader() {
+                    return true;
+                }
+            }, false));
             this.items.addAll(items);
             this.type = type;
             notifyDataSetChanged();
@@ -241,24 +253,25 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
 
         @Override
         public DetailsActivityFragment.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.default_item, parent, false);
-
-            if (type == EDUCATION.ordinal()) {
-                view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.education_item, parent, false);
-                return new EducationHolder(view);
-            } else if (type == JOBS.ordinal()) {
-                view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.job_item, parent, false);
-                return new JobHolder(view);
-            } else if (type == SKILLS.ordinal()) {
-                view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.skill_item, parent, false);
-                return new SkillHolder(view);
+            if (viewType == HEADER) {
+                return new DetailsActivityFragment.ViewHolder(LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.header_item, parent, false));
+            }
+            if (viewType == EDUCATION.ordinal()) {
+                return new EducationHolder(LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.education_item, parent, false));
+            }
+            if (viewType == JOBS.ordinal()) {
+                return new JobHolder(LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.job_item, parent, false));
+            }
+            if (viewType == SKILLS.ordinal()) {
+                return new SkillHolder(LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.skill_item, parent, false));
             }
 
-            return new DetailsActivityFragment.ViewHolder(view);
+            return new DetailsActivityFragment.ViewHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.default_item, parent, false));
         }
 
         @Override
@@ -266,6 +279,9 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
             final BaseItem baseItem = items.get(position).first;
             holder.tvTitle.setText(baseItem.getTitle());
 
+            if (baseItem.isHeader()) {
+                return;
+            }
             final int itemViewType = holder.getItemViewType();
             if (itemViewType == EDUCATION.ordinal()) {
                 bindEducationHolder((EducationHolder) holder, (Education) baseItem);
@@ -361,7 +377,7 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
 
         @Override
         public int getItemViewType(int position) {
-            return type;
+            return items.get(position).first.isHeader() ? HEADER : type;
         }
 
         @Override
