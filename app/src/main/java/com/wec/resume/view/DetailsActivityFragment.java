@@ -241,7 +241,8 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
         }
 
         void changeItemDetailsVisibility(int position, boolean visibility) {
-            final JobHolder jobHolder = (JobHolder) rvItems.findViewHolderForAdapterPosition(position);
+            //position + 1 to handle title item
+            final JobHolder jobHolder = (JobHolder) rvItems.findViewHolderForAdapterPosition(position + 1);
             TransitionManager.beginDelayedTransition(rvItems);
             jobHolder.layoutDetails.setVisibility(visibility ? VISIBLE : GONE);
             jobHolder.tvDots.setVisibility(!visibility ? VISIBLE : GONE);
@@ -357,7 +358,8 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
                 jobHolder.tvTimeUnit.setText(getResources().getQuantityString(R.plurals.plural_month, months));
             }
 
-            jobHolder.cvContent.setOnClickListener(v -> onClickSubject.onNext(position));
+            // Passing position with decreased by 1 to handle title element added to list.
+            jobHolder.cvContent.setOnClickListener(v -> onClickSubject.onNext(position - 1));
 
             jobHolder.layoutDetails.setVisibility(detailsVisibility ? VISIBLE : GONE);
             jobHolder.tvDots.setVisibility(!detailsVisibility ? VISIBLE : GONE);
