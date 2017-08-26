@@ -9,7 +9,7 @@ import com.wec.resume.model.ModalPair;
 import java.util.List;
 
 public interface DetailsActivityFragmentView extends View {
-    void showList(@NonNull List<ModalPair<BaseItem, Boolean>> items, int type);
+    void showList(@NonNull String title, @NonNull List<ModalPair<BaseItem, Boolean>> items, int type);
 
     void showItemDetails(int position, boolean visibility);
 }
