@@ -3,7 +3,6 @@ package com.wec.resume.view;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.transition.TransitionManager;
@@ -20,8 +19,6 @@ import android.widget.TextView;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.wec.resume.R;
 import com.wec.resume.injection.component.DaggerActivityComponent;
 import com.wec.resume.injection.module.PresenterModule;
@@ -149,9 +146,9 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
             ButterKnife.bind(this, view);
         }
 
-        void setupImage(String url, @DrawableRes int placeholderRes) {
+        void setupImage(String url) {
             if (ivItemImage != null) {
-                ViewUtils.loadImageToView(getContext(), ivItemImage, url, placeholderRes, null);
+                ViewUtils.loadImageToView(getContext(), ivItemImage, url);
             }
         }
     }
@@ -309,7 +306,7 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
                 educationHolder.tvSpeciality.setText(speciality);
             }
 
-            educationHolder.setupImage(education.getCover(), R.mipmap.ic_launcher);
+            educationHolder.setupImage(education.getCover());
         }
 
         private void bindJobHolder(JobHolder jobHolder, Job job, Boolean detailsVisibility, final int position) {
@@ -346,13 +343,13 @@ public class DetailsActivityFragment extends AbstractPresenterFragment<DetailsAc
             jobHolder.layoutDetails.setVisibility(detailsVisibility ? VISIBLE : GONE);
             jobHolder.tvDots.setVisibility(!detailsVisibility ? VISIBLE : GONE);
 
-            jobHolder.setupImage(job.getCover(), R.mipmap.ic_launcher_round);
+            jobHolder.setupImage(job.getCover());
         }
 
         private int calculateMonthsBetween(Date startDate, Date endDate) {
-            Calendar startCalendar = new GregorianCalendar();
+            final Calendar startCalendar = new GregorianCalendar();
             startCalendar.setTime(startDate);
-            Calendar endCalendar = new GregorianCalendar();
+            final Calendar endCalendar = new GregorianCalendar();
             endCalendar.setTime(endDate);
 
             int diffYear = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR);

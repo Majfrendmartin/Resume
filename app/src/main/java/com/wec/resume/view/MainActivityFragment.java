@@ -18,6 +18,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.wec.resume.R;
 import com.wec.resume.injection.component.DaggerActivityComponent;
 import com.wec.resume.injection.module.PresenterModule;
@@ -33,6 +36,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
+
+import static android.view.View.INVISIBLE;
+import static android.widget.ImageView.ScaleType.FIT_CENTER;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -122,6 +128,9 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
         @BindView(R.id.iv_item_image)
         ImageView ivItemImage;
 
+        @BindView(R.id.pb_loading)
+        View pbLoading;
+
         @BindView(R.id.cv_content)
         CardView cvContent;
 
@@ -131,7 +140,21 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
         }
 
         void setupImage(String url, @DrawableRes int placeholderRes) {
-            ViewUtils.loadImageToView(getContext(), ivItemImage, url, placeholderRes, null);
+            ViewUtils.loadImageToView(getContext(), ivItemImage, url, placeholderRes, new RequestListener<String, GlideDrawable>() {
+                @Override
+                public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                    ivItemImage.setScaleType(FIT_CENTER);
+                    pbLoading.setVisibility(INVISIBLE);
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                    ivItemImage.setScaleType(FIT_CENTER);
+                    pbLoading.setVisibility(INVISIBLE);
+                    return false;
+                }
+            });
         }
     }
 

@@ -11,6 +11,7 @@ import android.support.v7.graphics.Palette.PaletteAsyncListener;
 import android.widget.ImageView;
 
 import com.annimon.stream.Optional;
+import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -23,17 +24,29 @@ final class ViewUtils {
     private ViewUtils() {
     }
 
+    static void loadImageToView(@NonNull Context context, @NonNull ImageView imageView, @NonNull String url,
+                                @Nullable RequestListener<String, GlideDrawable> requestListener) {
+        loadImageToView(context, imageView, url, -1, false, requestListener);
+    }
+
     static void loadImageToView(@NonNull Context context, @NonNull ImageView imageView,
                                 @NonNull String url, @DrawableRes final int drawableRes,
                                 @Nullable RequestListener<String, GlideDrawable> requestListener) {
-        Glide.with(context)
-                .load(url)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+        loadImageToView(context, imageView, url, drawableRes, true, requestListener);
+    }
+
+    private static void loadImageToView(@NonNull Context context, @NonNull ImageView imageView,
+                                @NonNull String url, @DrawableRes final int offlinePlaceholder,
+                                boolean hasPlaceholder,
+                                @Nullable RequestListener<String, GlideDrawable> requestListener) {
+        initGlide(context, url)
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<GlideDrawable> target,
                                                boolean isFirstResource) {
-                        imageView.setImageResource(drawableRes);
+                        if (hasPlaceholder) {
+                            imageView.setImageResource(offlinePlaceholder);
+                        }
                         Optional.ofNullable(requestListener)
                                 .ifPresent(rl -> rl.onException(e, model, target, isFirstResource));
                         return true;
@@ -50,6 +63,16 @@ final class ViewUtils {
                     }
                 })
                 .into(imageView);
+    }
+
+    static void loadImageToView(@NonNull Context context, @NonNull ImageView imageView, @NonNull String url) {
+        initGlide(context, url).into(imageView);
+    }
+
+    private static DrawableRequestBuilder<String> initGlide(@NonNull Context context, @NonNull String url) {
+        return Glide.with(context)
+                .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
     }
 
     static void loadImageToView(@NonNull Context context, @NonNull ImageView imageView,
@@ -91,13 +114,13 @@ final class ViewUtils {
     static int getDrawableForSectionType(SectionType sectionType) {
         switch (sectionType) {
             case EDUCATION:
-                return R.drawable.ic_github;
+                return R.drawable.ic_education;
             case JOBS:
-                return R.drawable.ic_linked_in;
+                return R.drawable.ic_work;
             case SKILLS:
-                return R.mipmap.ic_social;
+                return R.drawable.ic_skill;
             case ABOUT:
-                return R.mipmap.ic_launcher;
+                return R.drawable.ic_about;
         }
         return R.mipmap.ic_launcher_round;
     }
