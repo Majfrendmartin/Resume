@@ -104,7 +104,7 @@
     "items": [
       {
         "name": "Android",
-        "description": "Android development with Java. Knowledge of both Eclipse and Intellij Idea (Android Studio) IDEs. Familiarity with popular libraries. Gradle knowledge.",
+        "description": "Android development with Java. Knowledge of both Eclipse and IntelliJ Idea (Android Studio) IDEs. Familiarity with popular libraries. Gradle knowledge.",
         "level": 5
       },
       {
