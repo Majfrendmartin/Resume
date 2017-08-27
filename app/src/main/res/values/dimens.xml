@@ -4,10 +4,16 @@
     <dimen name="margin_15">15dp</dimen>
     <dimen name="margin_5">5dp</dimen>
     <dimen name="status_bar_height">24dp</dimen>
-    <dimen name="parallax_app_bar_height_tall">300dp</dimen>
-    <dimen name="parallax_app_bar_height_short">204dp</dimen>
+    <dimen name="parallax_app_bar_height_tall">250dp</dimen>
+    <dimen name="parallax_app_bar_height_short">200dp</dimen>
     <dimen name="time_unit_text_size">10sp</dimen>
     <dimen name="time_text_size">20sp</dimen>
     <dimen name="header_text_size">20sp</dimen>
     <dimen name="image_item_wh">50dp</dimen>
+    <dimen name="separator_height">1dp</dimen>
+    <dimen name="main_activity_header_height">46dp</dimen>
+    <dimen name="fab_elevation">10dp</dimen>
+    <dimen name="fab_top_margin">54dp</dimen>
+    <dimen name="fab_end_margin">24dp</dimen>
+    <dimen name="splash_elevation">21dp</dimen>
 </resources>

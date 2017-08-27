@@ -14,6 +14,7 @@ import com.wec.resume.model.EducationSection;
 import com.wec.resume.model.JobsSection;
 import com.wec.resume.model.Resume;
 import com.wec.resume.model.Section;
+import com.wec.resume.model.Section.SectionType;
 import com.wec.resume.model.SkillsSection;
 import com.wec.resume.model.event.ResumeUpdatedEvent;
 
@@ -196,7 +197,7 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
-    public Observable<Section> getSectionByType(@android.support.annotation.NonNull Section.SectionType sectionType) {
+    public Observable<Section> getSectionByType(@NonNull SectionType sectionType) {
         return Observable.create(emitter -> {
             if (currentResume == null) {
                 emitter.onError(new NullPointerException("No resume data available"));
@@ -204,7 +205,7 @@ public class RepositoryImpl implements Repository {
                 return;
             }
 
-            Section selectedSection;
+            final Section selectedSection;
 
             switch (sectionType) {
                 case EDUCATION:

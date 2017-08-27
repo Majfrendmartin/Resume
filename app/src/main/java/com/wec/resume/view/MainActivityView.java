@@ -5,8 +5,6 @@ import com.wec.resume.model.Social;
 
 public interface MainActivityView extends View {
 
-    void setTitle(String title);
-
     void setAvatar(String avatar);
 
     void showCouldNoteLoadDataErrorMessage();

@@ -36,9 +36,9 @@ final class ViewUtils {
     }
 
     private static void loadImageToView(@NonNull Context context, @NonNull ImageView imageView,
-                                @NonNull String url, @DrawableRes final int offlinePlaceholder,
-                                boolean hasPlaceholder,
-                                @Nullable RequestListener<String, GlideDrawable> requestListener) {
+                                        @NonNull String url, @DrawableRes final int offlinePlaceholder,
+                                        boolean hasPlaceholder,
+                                        @Nullable RequestListener<String, GlideDrawable> requestListener) {
         initGlide(context, url)
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override

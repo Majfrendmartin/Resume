@@ -34,8 +34,10 @@ public class PresenterModule {
     @Provides
     @PerActivity
     MainActivityFragmentPresenter provideMainActivityFragmentPresenter(
-            FetchSectionsUsecase fetchSectionsUsecase, EventBus eventBus, NetworkConnectionInfo networkConnectionInfo) {
-        return new MainActivityFragmentPresenterImpl(fetchSectionsUsecase, eventBus, networkConnectionInfo);
+            FetchSectionsUsecase fetchSectionsUsecase, EventBus eventBus,
+            NetworkConnectionInfo networkConnectionInfo, FetchBioUsecase fetchBioUsecase) {
+        return new MainActivityFragmentPresenterImpl(fetchSectionsUsecase, eventBus,
+                networkConnectionInfo, fetchBioUsecase);
     }
 
     @Provides

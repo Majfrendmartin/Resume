@@ -10,5 +10,6 @@ public class Bio {
     private String name;
     private String surname;
     private String avatar;
+    private String description;
     private Social[] socials;
 }

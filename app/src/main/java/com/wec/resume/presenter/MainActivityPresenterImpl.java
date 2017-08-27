@@ -20,7 +20,6 @@ import static android.webkit.URLUtil.isValidUrl;
 
 public class MainActivityPresenterImpl extends AbstractPresenter<MainActivityView> implements MainActivityPresenter {
 
-    private static final String TITLE_PLACEHOLDER = "%s %s";
     private static final String SHOULD_SHOW_SPLASH_SCREEN = "SHOULD_SHOW_SPLASH_SCREEN";
     private final UpdateResumeUsecase updateResumeUsecase;
     private final FetchBioUsecase fetchBioUsecase;
@@ -91,7 +90,6 @@ public class MainActivityPresenterImpl extends AbstractPresenter<MainActivityVie
                     setBio(bio);
                     if (isViewBounded()) {
                         final MainActivityView view = getView();
-                        view.setTitle(String.format(TITLE_PLACEHOLDER, bio.getName(), bio.getSurname()));
                         final String avatar = bio.getAvatar();
 
                         if (isValidUrl(avatar)) {

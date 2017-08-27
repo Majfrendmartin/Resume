@@ -77,7 +77,9 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        setupToolbar();
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         DaggerActivityComponent.builder()
                 .applicationComponent(getApplicationComponent())
@@ -90,15 +92,16 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
         appBarLayout.addOnOffsetChangedListener(this::updateToolbarImageAlpha);
     }
 
-    private void updateToolbarImageAlpha(AppBarLayout appBarLayout1, float verticalOffset) {
-        final int totalScrollRange = appBarLayout1.getTotalScrollRange();
-        final float imageAlpha = (totalScrollRange + verticalOffset) / (float) totalScrollRange;
-        ivToolbarParallaxBackground.setAlpha(imageAlpha);
+    private void setupToolbar() {
+        final CollapsingToolbarLayout.LayoutParams params = (CollapsingToolbarLayout.LayoutParams) toolbar.getLayoutParams();
+        params.height = 0;
+        toolbar.setLayoutParams(params);
     }
 
-    @Override
-    public void setTitle(String title) {
-        collapsingToolbarLayout.setTitle(title);
+    private void updateToolbarImageAlpha(AppBarLayout appBarLayout, float verticalOffset) {
+        final int totalScrollRange = appBarLayout.getTotalScrollRange();
+        final float imageAlpha = (totalScrollRange + verticalOffset) / (float) totalScrollRange;
+        ivToolbarParallaxBackground.setAlpha(imageAlpha);
     }
 
     @Override

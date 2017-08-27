@@ -11,6 +11,7 @@ import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,8 @@ import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
 import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+import static android.widget.ImageView.ScaleType.CENTER_CROP;
 import static android.widget.ImageView.ScaleType.FIT_CENTER;
 
 /**
@@ -50,6 +53,12 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
 
     @BindView(R.id.rv_sections)
     RecyclerView rvSections;
+
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
+
+    @BindView(R.id.tv_subtitle)
+    TextView tvSubtitle;
 
     private SectionsAdapter sectionsAdapter;
 
@@ -120,6 +129,15 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
         Toast.makeText(getContext(), R.string.no_internet_info, Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public void showHeader(String title, String subtitle) {
+        tvTitle.setText(title);
+        if (!TextUtils.isEmpty(subtitle)) {
+            tvSubtitle.setText(subtitle);
+            tvSubtitle.setVisibility(VISIBLE);
+        }
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.tv_title)
@@ -150,7 +168,7 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
 
                 @Override
                 public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                    ivItemImage.setScaleType(FIT_CENTER);
+                    ivItemImage.setScaleType(CENTER_CROP);
                     pbLoading.setVisibility(INVISIBLE);
                     return false;
                 }
@@ -159,7 +177,6 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
     }
 
     private class SectionsAdapter extends RecyclerView.Adapter<ViewHolder> {
-
         private final List<Section> items = new CopyOnWriteArrayList<>();
         private PublishSubject<Pair<SectionType, Integer>> onClickSubject = PublishSubject.create();
 
@@ -182,12 +199,13 @@ public class MainActivityFragment extends AbstractPresenterFragment<MainActivity
 
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
-            final Section resumeItem = items.get(position);
-            holder.tvTitle.setText(resumeItem.getTitle());
-            holder.setupImage(resumeItem.getCover(),
-                    ViewUtils.getDrawableForSectionType(resumeItem.getType()));
+            final Section sectionListItem = items.get(position);
+            holder.tvTitle.setText(sectionListItem.getTitle());
+            holder.setupImage(sectionListItem.getCover(),
+                    ViewUtils.getDrawableForSectionType(sectionListItem.getType()));
             holder.cvContent.setOnClickListener(
-                    v -> onClickSubject.onNext(Pair.create(resumeItem.getType(), position)));
+                    v -> onClickSubject.onNext(Pair.create(sectionListItem.getType(), position)));
+
         }
 
         @Override
