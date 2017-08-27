@@ -22,6 +22,7 @@ import com.wec.resume.presenter.DetailsActivityPresenter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.widget.ImageView.ScaleType.CENTER_CROP;
 import static android.widget.ImageView.ScaleType.FIT_CENTER;
 import static com.wec.resume.view.MainActivityFragment.KEY_EXTRA_SELECTED_TYPE;
 
@@ -67,13 +68,14 @@ public class DetailsActivity extends AbstractPresenterActivity<DetailsActivityPr
                     @Override
                     public boolean onException(Exception e, String model, Target<Bitmap> target,
                                                boolean isFirstResource) {
-                        supportStartPostponedEnterTransition();
                         ivToolbarParallaxBackground.setScaleType(FIT_CENTER);
+                        supportStartPostponedEnterTransition();
                         return false;
                     }
 
                     @Override
                     public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        ivToolbarParallaxBackground.setScaleType(CENTER_CROP);
                         supportStartPostponedEnterTransition();
                         return false;
                     }
