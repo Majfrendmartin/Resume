@@ -26,8 +26,8 @@ public class PresenterModule {
 
     @Provides
     @PerActivity
-    MainActivityPresenter provideMainActivityPresenter(FetchBioUsecase fetchBioUsecase,
-                                                       UpdateResumeUsecase updateResumeUsecase) {
+    public MainActivityPresenter provideMainActivityPresenter(FetchBioUsecase fetchBioUsecase,
+                                                              UpdateResumeUsecase updateResumeUsecase) {
         return new MainActivityPresenterImpl(fetchBioUsecase, updateResumeUsecase);
     }
 

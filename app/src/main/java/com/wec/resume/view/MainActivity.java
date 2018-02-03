@@ -71,6 +71,7 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
 
     @BindView(R.id.cl_container)
     ViewGroup clContainer;
+    private PresenterModule presenterModule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,13 +84,24 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
 
         DaggerActivityComponent.builder()
                 .applicationComponent(getApplicationComponent())
-                .presenterModule(new PresenterModule())
+                .presenterModule(getPresenterModule())
                 .build()
                 .inject(this);
 
         presenter.bindView(this);
         onCreateAfterInjection(savedInstanceState);
         appBarLayout.addOnOffsetChangedListener(this::updateToolbarImageAlpha);
+    }
+
+    private PresenterModule getPresenterModule() {
+        if (presenterModule == null) {
+            presenterModule = new PresenterModule();
+        }
+        return presenterModule;
+    }
+
+    protected void setPresenterModule(PresenterModule presenterModule) {
+        this.presenterModule = presenterModule;
     }
 
     private void setupToolbar() {
