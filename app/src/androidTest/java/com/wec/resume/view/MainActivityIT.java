@@ -2,7 +2,6 @@ package com.wec.resume.view;
 
 import android.app.Instrumentation;
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.intent.matcher.IntentMatchers;
 import android.support.test.rule.ActivityTestRule;
@@ -24,6 +23,7 @@ import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.Intents.intending;
 import static android.support.test.espresso.intent.Intents.times;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
+import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.not;
@@ -79,5 +79,10 @@ public class MainActivityIT {
         onView(withId(R.id.iv_splash_screen)).check(matches(isDisplayed()));
         Thread.sleep(2000);
         onView(withId(R.id.iv_splash_screen)).check(matches(not(isDisplayed())));
+    }
+
+    @Test
+    public void expandedToolbarVisible() throws Exception {
+        onView(withId(R.id.app_bar_layout)).check(matches(isCompletelyDisplayed()));
     }
 }

@@ -73,6 +73,7 @@ public class MainActivityTest {
         MainActivity mainActivity = activityController.create().start().resume().get();
         assertThat(mainActivity.ivSplashScreen.getVisibility()).isEqualTo(View.VISIBLE);
     }
+
     @Test
     public void splashScreenHidden() throws Exception {
         MainActivity mainActivity = activityController.create().start().resume().get();
