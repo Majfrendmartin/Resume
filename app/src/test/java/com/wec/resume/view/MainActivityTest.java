@@ -1,5 +1,9 @@
 package com.wec.resume.view;
 
+import android.opengl.Visibility;
+import android.view.*;
+import android.view.View;
+
 import com.wec.resume.BuildConfig;
 import com.wec.resume.injection.module.PresenterModule;
 import com.wec.resume.model.usecase.FetchBioUsecase;
@@ -26,7 +30,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
-
 public class MainActivityTest {
 
     private ActivityController<MainActivity> activityController;
@@ -63,5 +66,17 @@ public class MainActivityTest {
     public void presenterInjectedDuringActivityCreation() throws Exception {
         MainActivity mainActivity = activityController.create().get();
         assertThat(mainActivity.presenter).isNotNull();
+    }
+
+    @Test
+    public void splashScreenVisibleOnMainActivityResumed() throws Exception {
+        MainActivity mainActivity = activityController.create().start().resume().get();
+        assertThat(mainActivity.ivSplashScreen.getVisibility()).isEqualTo(View.VISIBLE);
+    }
+    @Test
+    public void splashScreenHidden() throws Exception {
+        MainActivity mainActivity = activityController.create().start().resume().get();
+        mainActivity.showSplashScreen(false);
+        assertThat(mainActivity.ivSplashScreen.getVisibility()).isEqualTo(View.GONE);
     }
 }

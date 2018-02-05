@@ -26,13 +26,14 @@ import static android.support.test.espresso.intent.Intents.times;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.AllOf.allOf;
 
 /**
  * Created by Pawel Raciborski on 02.02.2018.
  */
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
+public class MainActivityIT {
 
     @Rule
     public ActivityTestRule<MainActivity> testRule = new ActivityTestRule<>(MainActivity.class);
@@ -71,5 +72,12 @@ public class MainActivityTest {
 
         intended(expectedIntent);
         Intents.release();
+    }
+
+    @Test
+    public void splashScreenDisplayed() throws Exception {
+        onView(withId(R.id.iv_splash_screen)).check(matches(isDisplayed()));
+        Thread.sleep(2000);
+        onView(withId(R.id.iv_splash_screen)).check(matches(not(isDisplayed())));
     }
 }
