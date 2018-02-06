@@ -1,7 +1,5 @@
 package com.wec.resume.view;
 
-import android.opengl.Visibility;
-import android.view.*;
 import android.view.View;
 
 import com.wec.resume.BuildConfig;
@@ -40,6 +38,7 @@ public class MainActivityTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+
         activityController = Robolectric.buildActivity(MainActivity.class);
         activityController.get().setPresenterModule(new MockPresenterModule(presenter));
     }
@@ -64,20 +63,29 @@ public class MainActivityTest {
 
     @Test
     public void presenterInjectedDuringActivityCreation() throws Exception {
-        MainActivity mainActivity = activityController.create().get();
+        final MainActivity mainActivity = activityController.create().get();
         assertThat(mainActivity.presenter).isNotNull();
     }
 
     @Test
     public void splashScreenVisibleOnMainActivityResumed() throws Exception {
-        MainActivity mainActivity = activityController.create().start().resume().get();
+        final MainActivity mainActivity = getCreatedMainActivity();
         assertThat(mainActivity.ivSplashScreen.getVisibility()).isEqualTo(View.VISIBLE);
     }
 
     @Test
     public void splashScreenHidden() throws Exception {
-        MainActivity mainActivity = activityController.create().start().resume().get();
+        final MainActivity mainActivity = getCreatedMainActivity();
         mainActivity.showSplashScreen(false);
         assertThat(mainActivity.ivSplashScreen.getVisibility()).isEqualTo(View.GONE);
+    }
+
+//    @Test
+//    public void imageLoadedIntoAppbarBackground() throws Exception {
+        //TODO: add this test after refactoring (ViewUtils ---extract--> ImageLoader)
+//    }
+
+    private MainActivity getCreatedMainActivity() {
+        return activityController.create().start().resume().get();
     }
 }

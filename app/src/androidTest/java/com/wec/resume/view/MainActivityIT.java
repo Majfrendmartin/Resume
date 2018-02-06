@@ -50,7 +50,7 @@ public class MainActivityIT {
     public void cantNavigateToLinkedInPageBeforeSelectingSocialButton() throws Exception {
         Intents.init();
 
-        Matcher<Intent> expectedIntent = allOf(IntentMatchers.hasAction(Intent.ACTION_VIEW), hasData("https://www.linkedin.com/in/pawelraciborski"));
+        final Matcher<Intent> expectedIntent = allOf(IntentMatchers.hasAction(Intent.ACTION_VIEW), hasData("https://www.linkedin.com/in/pawelraciborski"));
         intending(expectedIntent).respondWith(new Instrumentation.ActivityResult(0,null));
 
         onView(withId(R.id.fab_linkedin)).check(matches(isDisplayed()));
@@ -64,7 +64,7 @@ public class MainActivityIT {
     public void navigateToLinkedInPage() throws Exception {
         Intents.init();
 
-        Matcher<Intent> expectedIntent = allOf(IntentMatchers.hasAction(Intent.ACTION_VIEW), hasData("https://www.linkedin.com/in/pawelraciborski"));
+        final Matcher<Intent> expectedIntent = allOf(IntentMatchers.hasAction(Intent.ACTION_VIEW), hasData("https://www.linkedin.com/in/pawelraciborski"));
         intending(expectedIntent).respondWith(new Instrumentation.ActivityResult(0,null));
 
         onView(withId(R.id.fab)).perform(click());
