@@ -2,6 +2,7 @@ package com.wec.resume.view;
 
 import android.app.Instrumentation;
 import android.content.Intent;
+import android.support.annotation.IdRes;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.intent.matcher.IntentMatchers;
 import android.support.test.rule.ActivityTestRule;
@@ -35,6 +36,9 @@ import static org.hamcrest.core.AllOf.allOf;
 @RunWith(AndroidJUnit4.class)
 public class MainActivityIT {
 
+    private static final String GITHUB_URL = "https://github.com/Majfrendmartin";
+    private static final String LINKED_IN_URL = "https://www.linkedin.com/in/pawelraciborski";
+
     @Rule
     public ActivityTestRule<MainActivity> testRule = new ActivityTestRule<>(MainActivity.class);
 
@@ -48,29 +52,37 @@ public class MainActivityIT {
 
     @Test
     public void cantNavigateToLinkedInPageBeforeSelectingSocialButton() throws Exception {
-        Intents.init();
-
-        final Matcher<Intent> expectedIntent = allOf(IntentMatchers.hasAction(Intent.ACTION_VIEW), hasData("https://www.linkedin.com/in/pawelraciborski"));
-        intending(expectedIntent).respondWith(new Instrumentation.ActivityResult(0,null));
-
-        onView(withId(R.id.fab_linkedin)).check(matches(isDisplayed()));
-        onView(withId(R.id.fab_linkedin)).perform(click());
-
-        intended(expectedIntent, times(0));
-        Intents.release();
+        testNavigationToSocialPageOnButtonClicked(R.id.fab_linkedin, LINKED_IN_URL, false);
     }
 
     @Test
     public void navigateToLinkedInPage() throws Exception {
+        testNavigationToSocialPageOnButtonClicked(R.id.fab_linkedin, LINKED_IN_URL, true);
+    }
+
+    @Test
+    public void cantNavigateToGithubPageBeforeSelectingSocialButton() throws Exception {
+        testNavigationToSocialPageOnButtonClicked(R.id.fab_github, GITHUB_URL, false);
+    }
+
+    @Test
+    public void navigateToGithubPage() throws Exception {
+        testNavigationToSocialPageOnButtonClicked(R.id.fab_github, GITHUB_URL, true);
+    }
+
+    private void testNavigationToSocialPageOnButtonClicked(@IdRes int buttonId, String url, boolean shouldNavigationAppear) {
         Intents.init();
 
-        final Matcher<Intent> expectedIntent = allOf(IntentMatchers.hasAction(Intent.ACTION_VIEW), hasData("https://www.linkedin.com/in/pawelraciborski"));
-        intending(expectedIntent).respondWith(new Instrumentation.ActivityResult(0,null));
+        final Matcher<Intent> expectedIntent = allOf(IntentMatchers.hasAction(Intent.ACTION_VIEW), hasData(url));
+        intending(expectedIntent).respondWith(new Instrumentation.ActivityResult(0, null));
 
-        onView(withId(R.id.fab)).perform(click());
-        onView(withId(R.id.fab_linkedin)).perform(click());
+        if (shouldNavigationAppear) {
+            onView(withId(R.id.fab)).perform(click());
+        }
 
-        intended(expectedIntent);
+        onView(withId(buttonId)).perform(click());
+
+        intended(expectedIntent, times(shouldNavigationAppear ? 1 : 0));
         Intents.release();
     }
 

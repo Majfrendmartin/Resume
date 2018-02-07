@@ -1,9 +1,11 @@
 package com.wec.resume.view;
 
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 
 import com.wec.resume.BuildConfig;
 import com.wec.resume.injection.module.PresenterModule;
+import com.wec.resume.model.Social.Type;
 import com.wec.resume.model.usecase.FetchBioUsecase;
 import com.wec.resume.model.usecase.UpdateResumeUsecase;
 import com.wec.resume.presenter.MainActivityPresenter;
@@ -19,7 +21,10 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
+import static com.wec.resume.model.Social.Type.GITHUB;
+import static com.wec.resume.model.Social.Type.LINKED_IN;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 
 
 /**
@@ -82,10 +87,34 @@ public class MainActivityTest {
 
 //    @Test
 //    public void imageLoadedIntoAppbarBackground() throws Exception {
-        //TODO: add this test after refactoring (ViewUtils ---extract--> ImageLoader)
+    //TODO: add this test after refactoring (ViewUtils ---extract--> ImageLoader)
 //    }
 
     private MainActivity getCreatedMainActivity() {
         return activityController.create().start().resume().get();
+    }
+
+    @Test
+    public void socialsButtonClickTriggersPresenter() throws Exception {
+        final MainActivity mainActivity = getCreatedMainActivity();
+        mainActivity.fab.performClick();
+        verify(presenter).socialsButtonClicked();
+    }
+
+    @Test
+    public void githubButtonClickTriggersPresenter() throws Exception {
+        final MainActivity mainActivity = getCreatedMainActivity();
+        verifyFabButtonClicked(mainActivity.fabGithub, GITHUB);
+    }
+
+    @Test
+    public void linkedInButtonClickTriggersPresenter() throws Exception {
+        final MainActivity mainActivity = getCreatedMainActivity();
+        verifyFabButtonClicked(mainActivity.fabLinkedIn, LINKED_IN);
+    }
+
+    private void verifyFabButtonClicked(FloatingActionButton button, Type buttonType) {
+        button.performClick();
+        verify(presenter).onButtonClicked(buttonType);
     }
 }
