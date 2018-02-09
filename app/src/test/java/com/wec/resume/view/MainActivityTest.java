@@ -9,6 +9,7 @@ import com.wec.resume.model.Social.Type;
 import com.wec.resume.model.usecase.FetchBioUsecase;
 import com.wec.resume.model.usecase.UpdateResumeUsecase;
 import com.wec.resume.presenter.MainActivityPresenter;
+import com.wec.resume.presenter.utils.UrlValidator;
 
 import org.junit.After;
 import org.junit.Before;
@@ -61,7 +62,8 @@ public class MainActivityTest {
 
         @Override
         public MainActivityPresenter provideMainActivityPresenter(FetchBioUsecase fetchBioUsecase,
-                                                                  UpdateResumeUsecase updateResumeUsecase) {
+                                                                  UpdateResumeUsecase updateResumeUsecase,
+                                                                  UrlValidator urlValidator) {
             return presenter;
         }
     }

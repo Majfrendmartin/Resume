@@ -15,6 +15,8 @@ import com.wec.resume.presenter.MainActivityFragmentPresenter;
 import com.wec.resume.presenter.MainActivityFragmentPresenterImpl;
 import com.wec.resume.presenter.MainActivityPresenter;
 import com.wec.resume.presenter.MainActivityPresenterImpl;
+import com.wec.resume.presenter.utils.UrlValidator;
+import com.wec.resume.presenter.utils.UrlValidatorImpl;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -27,8 +29,9 @@ public class PresenterModule {
     @Provides
     @PerActivity
     public MainActivityPresenter provideMainActivityPresenter(FetchBioUsecase fetchBioUsecase,
-                                                              UpdateResumeUsecase updateResumeUsecase) {
-        return new MainActivityPresenterImpl(fetchBioUsecase, updateResumeUsecase);
+                                                       UpdateResumeUsecase updateResumeUsecase,
+                                                       UrlValidator urlValidator) {
+        return new MainActivityPresenterImpl(fetchBioUsecase, updateResumeUsecase, urlValidator);
     }
 
     @Provides
@@ -52,5 +55,11 @@ public class PresenterModule {
     DetailsActivityFragmentPresenter provideDetailsActivityFragmentPresenter(
             FetchSectionByTypeUsecase fetchSectionByTypeUsecase) {
         return new DetailsActivityFragmentPresenterImpl(fetchSectionByTypeUsecase);
+    }
+
+    @Provides
+    @PerActivity
+    UrlValidator provideUrlValidator() {
+        return new UrlValidatorImpl();
     }
 }

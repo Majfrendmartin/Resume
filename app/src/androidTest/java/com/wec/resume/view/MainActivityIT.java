@@ -36,6 +36,8 @@ import static org.hamcrest.core.AllOf.allOf;
 @RunWith(AndroidJUnit4.class)
 public class MainActivityIT {
 
+    //TODO: use only preference resume when in test
+
     private static final String GITHUB_URL = "https://github.com/Majfrendmartin";
     private static final String LINKED_IN_URL = "https://www.linkedin.com/in/pawelraciborski";
 

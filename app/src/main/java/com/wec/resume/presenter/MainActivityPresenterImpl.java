@@ -10,27 +10,30 @@ import com.wec.resume.model.Social;
 import com.wec.resume.model.Social.Type;
 import com.wec.resume.model.usecase.FetchBioUsecase;
 import com.wec.resume.model.usecase.UpdateResumeUsecase;
+import com.wec.resume.presenter.utils.UrlValidator;
 import com.wec.resume.view.MainActivityView;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-import static android.webkit.URLUtil.isValidUrl;
-
 public class MainActivityPresenterImpl extends AbstractPresenter<MainActivityView> implements MainActivityPresenter {
 
     private static final String SHOULD_SHOW_SPLASH_SCREEN = "SHOULD_SHOW_SPLASH_SCREEN";
     private final UpdateResumeUsecase updateResumeUsecase;
     private final FetchBioUsecase fetchBioUsecase;
+    private final UrlValidator urlValidator;
     private Disposable updateResumeDisposable;
     private Disposable fetchBioDisposable;
     private boolean socialButtonSelected = false;
     private Bio bio;
 
-    public MainActivityPresenterImpl(FetchBioUsecase fetchBioUsecase, UpdateResumeUsecase updateResumeUsecase) {
+    public MainActivityPresenterImpl(FetchBioUsecase fetchBioUsecase,
+                                     UpdateResumeUsecase updateResumeUsecase,
+                                     UrlValidator urlValidator) {
         this.fetchBioUsecase = fetchBioUsecase;
         this.updateResumeUsecase = updateResumeUsecase;
+        this.urlValidator = urlValidator;
     }
 
     @Override
@@ -65,9 +68,7 @@ public class MainActivityPresenterImpl extends AbstractPresenter<MainActivityVie
                 .execute()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(resume -> {
-                    handleFetchBio();
-                }, throwable -> {
+                .subscribe(resume -> handleFetchBio(), throwable -> {
                     if (isViewBounded()) {
                         getView().showCouldNoteLoadDataErrorMessage();
                     }
@@ -92,7 +93,7 @@ public class MainActivityPresenterImpl extends AbstractPresenter<MainActivityVie
                         final MainActivityView view = getView();
                         final String avatar = bio.getAvatar();
 
-                        if (isValidUrl(avatar)) {
+                        if (urlValidator.isUrlValid(avatar)) {
                             view.setAvatar(avatar);
                         }
 
