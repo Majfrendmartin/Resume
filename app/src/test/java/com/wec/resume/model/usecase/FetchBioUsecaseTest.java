@@ -1,5 +1,6 @@
 package com.wec.resume.model.usecase;
 
+import com.wec.resume.model.Bio;
 import com.wec.resume.model.Resume;
 import com.wec.resume.model.repository.Repository;
 import com.wec.resume.utils.RxJavaTestRunner;
@@ -7,6 +8,7 @@ import com.wec.resume.utils.RxJavaTestRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -20,15 +22,20 @@ import static org.mockito.Mockito.when;
  */
 
 @RunWith(RxJavaTestRunner.class)
-public class UpdateResumeUsecaseTest extends BaseRepositoryUsecaseTest<Resume, UpdateResumeUsecase> {
+public class FetchBioUsecaseTest extends BaseRepositoryUsecaseTest<Bio, FetchBioUsecase> {
 
-    private static final Resume RESUME = new Resume();
+    private static final Bio BIO = new Bio();
+
+    @Mock
+    private Repository repository;
+
+    private FetchBioUsecase fetchBioUsecase;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         final Repository repository = getRepository();
-        super.setUp(RESUME, new UpdateResumeUsecaseImpl(repository));
-        when(repository.loadUpdatedResume()).thenReturn(Observable.just(RESUME));
+        super.setUp(BIO, new FetchBioUsecaseImpl(repository));
+        when(repository.getBio()).thenReturn(Observable.just(BIO));
     }
 }
