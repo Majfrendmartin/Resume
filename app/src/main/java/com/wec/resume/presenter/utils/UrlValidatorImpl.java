@@ -1,5 +1,7 @@
 package com.wec.resume.presenter.utils;
 
+import android.support.annotation.NonNull;
+
 import static android.webkit.URLUtil.isValidUrl;
 
 /**
@@ -8,7 +10,7 @@ import static android.webkit.URLUtil.isValidUrl;
 
 public class UrlValidatorImpl implements UrlValidator {
     @Override
-    public boolean isUrlValid(String url) {
+    public boolean isUrlValid(@NonNull String url) {
         return isValidUrl(url);
     }
 }

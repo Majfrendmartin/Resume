@@ -6,6 +6,7 @@ import com.wec.resume.injection.module.NetworkModule;
 import com.wec.resume.injection.scope.PerApplication;
 import com.wec.resume.model.repository.NetworkConnectionInfo;
 import com.wec.resume.model.repository.Repository;
+import com.wec.resume.view.utils.ImageLoader;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -19,4 +20,6 @@ public interface ApplicationComponent {
     EventBus eventBus();
 
     NetworkConnectionInfo networkConnectionInfo();
+
+    ImageLoader imageLoader();
 }

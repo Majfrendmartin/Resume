@@ -1,15 +1,23 @@
 package com.wec.resume.view;
 
+import android.app.Application;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 
+import com.bumptech.glide.request.RequestListener;
 import com.wec.resume.BuildConfig;
+import com.wec.resume.ResumeApplication;
+import com.wec.resume.injection.component.ApplicationComponent;
+import com.wec.resume.injection.component.DaggerApplicationComponent;
+import com.wec.resume.injection.module.ApplicationModule;
+import com.wec.resume.injection.module.NetworkModule;
 import com.wec.resume.injection.module.PresenterModule;
 import com.wec.resume.model.Social.Type;
 import com.wec.resume.model.usecase.FetchBioUsecase;
 import com.wec.resume.model.usecase.UpdateResumeUsecase;
 import com.wec.resume.presenter.MainActivityPresenter;
 import com.wec.resume.presenter.utils.UrlValidator;
+import com.wec.resume.view.utils.ImageLoader;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,12 +27,16 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
 import static com.wec.resume.model.Social.Type.GITHUB;
 import static com.wec.resume.model.Social.Type.LINKED_IN;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isNotNull;
 import static org.mockito.Mockito.verify;
 
 
@@ -36,14 +48,26 @@ import static org.mockito.Mockito.verify;
 @Config(constants = BuildConfig.class)
 public class MainActivityTest {
 
+    public static final String AVATAR_URL = "AVATAR_URL";
     private ActivityController<MainActivity> activityController;
 
     @Mock
     private MainActivityPresenter presenter;
 
+    @Mock
+    private ImageLoader imageLoader;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+
+        final ResumeApplication application = (ResumeApplication) RuntimeEnvironment.application;
+        final ApplicationComponent applicationComponent = DaggerApplicationComponent.builder()
+                .networkModule(new MockNetworkModule())
+                .applicationModule(new ApplicationModule(application))
+                .build();
+
+        application.setApplicationComponent(applicationComponent);
 
         activityController = Robolectric.buildActivity(MainActivity.class);
         activityController.get().setPresenterModule(new MockPresenterModule(presenter));
@@ -51,6 +75,14 @@ public class MainActivityTest {
 
     @After
     public void tearDown() throws Exception {
+    }
+
+
+    private class MockNetworkModule extends NetworkModule {
+        @Override
+        public ImageLoader provideImageLoader(Application application) {
+            return imageLoader;
+        }
     }
 
     private class MockPresenterModule extends PresenterModule {
@@ -87,10 +119,14 @@ public class MainActivityTest {
         assertThat(mainActivity.ivSplashScreen.getVisibility()).isEqualTo(View.GONE);
     }
 
-//    @Test
-//    public void imageLoadedIntoAppbarBackground() throws Exception {
-    //TODO: add this test after refactoring (ViewUtils ---extract--> ImageLoader)
-//    }
+    @Test
+    public void imageLoadedIntoAppbarBackground() throws Exception {
+        final MainActivity mainActivity = getCreatedMainActivity();
+        assertThat(mainActivity.imageLoader).isNotNull();
+        mainActivity.setAvatar(AVATAR_URL);
+
+        verify(mainActivity.imageLoader).loadImageToView(isNotNull(), eq(AVATAR_URL), any(RequestListener.class));
+    }
 
     private MainActivity getCreatedMainActivity() {
         return activityController.create().start().resume().get();

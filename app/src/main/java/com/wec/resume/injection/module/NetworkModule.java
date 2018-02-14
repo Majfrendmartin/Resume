@@ -5,11 +5,14 @@ import android.app.Application;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.wec.resume.injection.scope.PerActivity;
 import com.wec.resume.injection.scope.PerApplication;
 import com.wec.resume.model.repository.NetworkConnectionInfo;
 import com.wec.resume.model.repository.NetworkConnectionInfoImpl;
 import com.wec.resume.model.repository.Repository;
 import com.wec.resume.model.repository.RepositoryImpl;
+import com.wec.resume.view.utils.ImageLoader;
+import com.wec.resume.view.utils.ImageLoaderImpl;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -45,5 +48,11 @@ public class NetworkModule {
     @PerApplication
     NetworkConnectionInfo provideNetworkConnectionInfo(Application application) {
         return new NetworkConnectionInfoImpl(application);
+    }
+
+    @Provides
+    @PerApplication
+    public ImageLoader provideImageLoader(Application application) {
+        return new ImageLoaderImpl(application);
     }
 }

@@ -13,7 +13,10 @@ import dagger.Component;
 
 @PerActivity
 @Component(dependencies = ApplicationComponent.class,
-        modules = {PresenterModule.class, UsecaseModule.class})
+        modules = {
+                PresenterModule.class,
+                UsecaseModule.class
+        })
 public interface ActivityComponent {
     void inject(MainActivity mainActivity);
 

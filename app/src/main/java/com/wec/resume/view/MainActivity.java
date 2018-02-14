@@ -24,6 +24,9 @@ import com.wec.resume.injection.component.DaggerActivityComponent;
 import com.wec.resume.injection.module.PresenterModule;
 import com.wec.resume.model.Social;
 import com.wec.resume.presenter.MainActivityPresenter;
+import com.wec.resume.view.utils.ImageLoader;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,6 +74,10 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
 
     @BindView(R.id.cl_container)
     ViewGroup clContainer;
+
+    @Inject
+    ImageLoader imageLoader;
+
     private PresenterModule presenterModule;
 
     @Override
@@ -118,7 +125,7 @@ public class MainActivity extends AbstractPresenterActivity<MainActivityPresente
 
     @Override
     public void setAvatar(String avatar) {
-        ViewUtils.loadImageToView(this, ivToolbarParallaxBackground, avatar,
+        imageLoader.loadImageToView(ivToolbarParallaxBackground, avatar,
                 new RequestListener<String, GlideDrawable>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<GlideDrawable> target,

@@ -1,6 +1,7 @@
 package com.wec.resume;
 
 import android.app.Application;
+import android.support.annotation.NonNull;
 
 import com.wec.resume.injection.component.ApplicationComponent;
 import com.wec.resume.injection.component.DaggerApplicationComponent;
@@ -16,13 +17,25 @@ public class ResumeApplication extends Application {
         setupInjector();
     }
 
-    private void setupInjector() {
-        applicationComponent = DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(this))
-                .build();
+    protected void setupInjector() {
+        if (applicationComponent == null) {
+            applicationComponent = DaggerApplicationComponent.builder()
+                    .applicationModule(getApplicationModule())
+                    .build();
+        }
+    }
+
+    @NonNull
+    protected ApplicationModule getApplicationModule() {
+        return new ApplicationModule(this);
+    }
+
+    public void setApplicationComponent(ApplicationComponent applicationComponent) {
+        this.applicationComponent = applicationComponent;
     }
 
     public ApplicationComponent getApplicationComponent() {
         return applicationComponent;
     }
 }
+
