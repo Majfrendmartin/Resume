@@ -129,6 +129,13 @@ public class MainActivityPresenterTest {
         presenter.onButtonClicked(GITHUB);
         verify(view).navigateToURL(GITHUB_URL);
     }
+    @Test
+    public void githubButtonClickedViewNotBounded() throws Exception {
+        bindView();
+        presenter.setBio(BIO);
+        presenter.onButtonClicked(GITHUB);
+        verify(view, never()).navigateToURL(GITHUB_URL);
+    }
 
     @Test
     public void linkedInButtonClickedViewBounded() throws Exception {
@@ -139,7 +146,44 @@ public class MainActivityPresenterTest {
     }
 
     @Test
-    public void onButtonClicked() throws Exception {
+    public void linkedInButtonClickedViewNotBounded() throws Exception {
+        bindView();
+        presenter.setBio(BIO);
+        presenter.onButtonClicked(LINKED_IN);
+        verify(view, never()).navigateToURL(LINKED_IN_URL);
+    }
+
+    @Test
+    public void socialButtonClickedViewBounded() throws Exception {
+        bindView();
+        presenter.setBio(BIO);
+
+        presenter.socialsButtonClicked();
+        verify(view).setSocialButtonToSelected(true);
+        verify(view).animateButton(GITHUB, 0, true);
+        verify(view).animateButton(LINKED_IN, 1, true);
+
+
+        presenter.socialsButtonClicked();
+        verify(view).setSocialButtonToSelected(false);
+        verify(view).animateButton(GITHUB, 0, false);
+        verify(view).animateButton(LINKED_IN, 1, false);
+    }
+
+    @Test
+    public void socialButtonClickedViewNotBounded() throws Exception {
+        presenter.setBio(BIO);
+
+        presenter.socialsButtonClicked();
+        verify(view, never()).setSocialButtonToSelected(true);
+        verify(view, never()).animateButton(GITHUB, 0, true);
+        verify(view, never()).animateButton(LINKED_IN, 1, true);
+
+
+        presenter.socialsButtonClicked();
+        verify(view, never()).setSocialButtonToSelected(false);
+        verify(view, never()).animateButton(GITHUB, 0, false);
+        verify(view, never()).animateButton(LINKED_IN, 1, false);
     }
 
     private void bindView() {
