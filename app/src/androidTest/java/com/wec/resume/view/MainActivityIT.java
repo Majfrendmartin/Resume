@@ -2,6 +2,7 @@ package com.wec.resume.view;
 
 import android.app.Instrumentation;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.IdRes;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.intent.matcher.IntentMatchers;
@@ -24,10 +25,13 @@ import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.Intents.intending;
 import static android.support.test.espresso.intent.Intents.times;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
+import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.AllOf.allOf;
 
 /**
@@ -43,6 +47,9 @@ public class MainActivityIT {
 
     @Rule
     public ActivityTestRule<MainActivity> testRule = new ActivityTestRule<>(MainActivity.class);
+
+    @Rule
+    public AsyncTaskSchedulerRule asyncTaskSchedulerRule = new AsyncTaskSchedulerRule();
 
     @Before
     public void setUp() throws Exception {
@@ -98,5 +105,15 @@ public class MainActivityIT {
     @Test
     public void expandedToolbarVisible() throws Exception {
         onView(withId(R.id.app_bar_layout)).check(matches(isCompletelyDisplayed()));
+    }
+
+    @Test
+    public void imageLoadedIntoBackground() throws Exception {
+        //TODO: LAAAAAAAAAAAAAAAAAAAAAME!!!
+        Thread.sleep(500);
+        final Drawable drawable = testRule.getActivity().ivToolbarParallaxBackground.getDrawable();
+        assertThat(drawable, notNullValue());
+        assertThat(drawable.getBounds().width(), greaterThan(0));
+        assertThat(drawable.getBounds().height(), greaterThan(0));
     }
 }
