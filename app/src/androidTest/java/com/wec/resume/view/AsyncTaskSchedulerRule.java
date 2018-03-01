@@ -1,15 +1,13 @@
 package com.wec.resume.view;
 
-import android.os.AsyncTask;
+import com.squareup.rx2.idler.Rx2Idler;
 
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
-import io.reactivex.Scheduler;
 import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.plugins.RxJavaPlugins;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Pawel Raciborski on 28.02.2018.
@@ -17,24 +15,25 @@ import io.reactivex.schedulers.Schedulers;
 
 public class AsyncTaskSchedulerRule implements TestRule {
 
-    final Scheduler asyncTaskScheduler = Schedulers.from(AsyncTask.SERIAL_EXECUTOR);
 
     @Override
     public Statement apply(Statement base, Description description) {
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
-                RxJavaPlugins.setInitComputationSchedulerHandler(scheduler -> asyncTaskScheduler);
-                RxJavaPlugins.setInitIoSchedulerHandler(scheduler -> asyncTaskScheduler);
-                RxJavaPlugins.setInitNewThreadSchedulerHandler(scheduler -> asyncTaskScheduler);
-                RxJavaPlugins.setInitSingleSchedulerHandler(scheduler -> asyncTaskScheduler);
-                RxAndroidPlugins.setInitMainThreadSchedulerHandler(scheduler -> asyncTaskScheduler);
+
+                RxJavaPlugins.setInitComputationSchedulerHandler(Rx2Idler.create("RxJava 2.x Computation Scheduler"));
+                RxJavaPlugins.setInitIoSchedulerHandler(Rx2Idler.create("RxJava 2.x Computation Scheduler"));
+                RxJavaPlugins.setInitNewThreadSchedulerHandler(Rx2Idler.create("RxJava 2.x Computation Scheduler"));
+                RxJavaPlugins.setInitSingleSchedulerHandler(Rx2Idler.create("RxJava 2.x Computation Scheduler"));
+                RxAndroidPlugins.setInitMainThreadSchedulerHandler(Rx2Idler.create("RxJava 2.x Computation Scheduler"));
                 try {
                     base.evaluate();
                 } finally {
                     RxJavaPlugins.reset();
                     RxAndroidPlugins.reset();
                 }
+
             }
         };
     }

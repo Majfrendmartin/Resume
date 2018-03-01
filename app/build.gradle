@@ -1,16 +1,18 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.wec.resume"
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 2
         versionName "0.1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.wec.resume.view.RxIdlingTestRunner"
     }
     buildTypes {
         release {
@@ -27,7 +29,7 @@ android {
 ext {
     butterknifeVersion = '8.7.0'
     daggerVersion = '2.11'
-    supportVersion = '25.3.1'
+    supportVersion = '25.4.0'
     retrofitVersion = '2.3.0'
     espressoVersion = '2.2.2'
 }
@@ -40,6 +42,8 @@ dependencies {
     androidTestCompile("com.android.support.test.espresso:espresso-core:$espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
+    androidTestImplementation 'com.squareup.rx.idler:rx2-idler:0.9.0'
 
     compile "com.android.support:appcompat-v7:$supportVersion"
     compile "com.android.support:design:$supportVersion"
@@ -61,17 +65,23 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.1'
 
     compile 'com.github.bumptech.glide:glide:3.8.0'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.annimon:stream:1.1.8'
     provided 'org.projectlombok:lombok:1.16.18'
+    annotationProcessor 'org.projectlombok:lombok:1.16.18'
 
     testCompile 'org.mockito:mockito-core:2.8.9'
     testCompile 'org.assertj:assertj-core:3.6.2'
     testCompile "org.robolectric:robolectric:3.4.2"
 
     testCompile 'junit:junit:4.12'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+}
+repositories {
+    mavenCentral()
 }

@@ -48,8 +48,8 @@ public class MainActivityIT {
     @Rule
     public ActivityTestRule<MainActivity> testRule = new ActivityTestRule<>(MainActivity.class);
 
-    @Rule
-    public AsyncTaskSchedulerRule asyncTaskSchedulerRule = new AsyncTaskSchedulerRule();
+//    @Rule
+//    public AsyncTaskSchedulerRule asyncTaskSchedulerRule = new AsyncTaskSchedulerRule();
 
     @Before
     public void setUp() throws Exception {
@@ -110,7 +110,7 @@ public class MainActivityIT {
     @Test
     public void imageLoadedIntoBackground() throws Exception {
         //TODO: LAAAAAAAAAAAAAAAAAAAAAME!!!
-        Thread.sleep(500);
+//        Thread.sleep(500);
         final Drawable drawable = testRule.getActivity().ivToolbarParallaxBackground.getDrawable();
         assertThat(drawable, notNullValue());
         assertThat(drawable.getBounds().width(), greaterThan(0));
